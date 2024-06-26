@@ -8,14 +8,13 @@ import Content from "~~/components/Content";
 
 const Home: NextPage = () => {
   const client = new ApolloClient({
-    uri: "https://gateway-arbitrum.network.thegraph.com/api/b435458dbec2e8b4b536e995ab79a86a/subgraphs/id/5zvR82QoaXYFyDEKLZ9t6v9adgnptxYpKpSbxtgVENFV",
+    uri: "https://api.studio.thegraph.com/query/55821/transfers/version/latest",
     cache: new InMemoryCache(),
   });
 
   return (
     <ApolloProvider client={client}>
       <div className="flex items-center flex-col flex-grow pt-10">
-        <div>Welcome to Substreams Challenge 1</div>
         <Content />
       </div>
     </ApolloProvider>
