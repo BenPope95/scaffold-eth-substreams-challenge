@@ -4,7 +4,7 @@ CARGO_VERSION := $(shell cargo version 2>/dev/null)
 ENDPOINT ?= mainnet.eth.streamingfast.io:443
 START_BLOCK ?= 15999377
 BAYC_BLOCK ?= 12700000
-STOP_BLOCK ?= +1
+STOP_BLOCK ?= +100
 #
 
 .PHONY: build
@@ -19,7 +19,7 @@ endif
 # added in from hackathon
 .PHONY: run
 run: build
-	substreams run -e $(ENDPOINT) substreams.yaml map_events $(BAYC_BLOCK) -t $(STOP_BLOCK)
+	substreams run -e $(ENDPOINT) substreams.yaml map_events $(START_BLOCK) -t $(STOP_BLOCK)
 #
 
 # chatgpt
