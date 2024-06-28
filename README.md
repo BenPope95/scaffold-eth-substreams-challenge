@@ -94,13 +94,15 @@ In substreams_challenge > substreams.yaml, you'll find the outline of the projec
 When adding new modules, you'll need to specify its structure in the `substream.yaml`.
 There are two kinds of modules you can read about [here](https://substreams.streamingfast.io/documentation/develop/manifest-modules#module-kinds)
 
-- The map_module has mostly been filled out, but you'll need to specify its `name` and `kind`.
+The map_module has mostly been filled out.
 
-TASK: For the name field put `map_events` and for kind, put `map`.
+- [ ] For the name field put `map_events`
+- [ ] For the kind field put `map`.
 
-- Your first map_module will always take in blocks, so the `inputs` field needs to specify its `source` as `sf.ethereum.type.v2.Block`
-- Only use the `source` field if you're take in blocks.
-- But map_modules downstream can take in other map_modules or store_modules as inputs directely.
+- Your first map_module will always take in blocks, so the `inputs` field needs `- source: sf.ethereum.type.v2.Block`.
+
+Downstream, your map_module's `input` field can take in `-map: (name of map)` or `-store: (name of store)`.
+It is best practice to only take in `sf.ethereum.type.v2.Block` in your initial map_module.
 
 ### 1.3 Map module
 
