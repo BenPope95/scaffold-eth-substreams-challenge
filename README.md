@@ -62,9 +62,8 @@ Just follow our steps if you want a more guided experience.
 - [Protobufs](https://substreams.streamingfast.io/documentation/develop/creating-protobuf-schemas#protobuf-definition-for-substreams) from the Streamingfast docs.
   For this challenge you will have one protobuf that looks like this:
 
-  ```
-  syntax = "proto3";
-  ```
+```proto
+syntax = "proto3";
 
 import "google/protobuf/timestamp.proto";
 
@@ -79,7 +78,6 @@ string symbol = 3;
 message Transfers {
 repeated Transfer transfers = 1;
 }
-
 ```
 
 ### 1.2 Updating the Yaml
@@ -105,4 +103,3 @@ repeated Transfer transfers = 1;
 # Store module
 
 # Graph Out
-```
