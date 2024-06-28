@@ -4,7 +4,7 @@ import { gql, useQuery } from "@apollo/client";
 const Content = () => {
   const query = gql`
     {
-      transferVolumes(orBy: volume, orderDirection: desc) {
+      transferVolumes(orderBy: volume, orderDirection: desc) {
         name
         symbol
         address

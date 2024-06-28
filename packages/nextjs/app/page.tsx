@@ -8,7 +8,8 @@ import Content from "~~/components/Content";
 
 const Home: NextPage = () => {
   const client = new ApolloClient({
-    uri: "https://api.studio.thegraph.com/query/55821/transfers/version/latest",
+    // uri: "https://api.studio.thegraph.com/query/55821/transfers/version/latest",
+    uri: "https://api.studio.thegraph.com/query/55821/mints/version/latest",
     cache: new InMemoryCache(),
   });
 

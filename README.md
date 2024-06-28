@@ -53,14 +53,14 @@ Complete the challenge however you want, as long
 as you populate the pb with the required data.
 Just follow our steps if you want a more guided experience.
 
-# Checkpoint 1: Map_module
+# Checkpoint 1: map_module
 
 ### 1.1 Making a Protobuf
 
 - Protobufs are a language-agnostic way to serialize structured data.
 - Substreams use protobufs to carry data through their modules, so we need to define our protobufs in accordance to the data we want.
 - [Protobufs](https://substreams.streamingfast.io/documentation/develop/creating-protobuf-schemas#protobuf-definition-for-substreams) from the Streamingfast docs.
-  For this challenge you will have one protobuf that looks like this:
+- In substreams > proto > contract.proto, make sure your file looks like this:
 
 ```proto
 syntax = "proto3";
@@ -80,9 +80,19 @@ repeated Transfer transfers = 1;
 }
 ```
 
+In this challenge your first map_module will return a protobuf called `Transfers`.
+
+Your `Transfers` protobuf is a vector of `Transfer` protobufs.
+
+When returning a protobuf, you always need to return a `Protobuf` that contains a vector of `Protobufs`.
+
+Because substreams index entire blocks at a time before moving to the next block, you need to be able to return multiple protobufs.
+
 ### 1.2 Updating the Yaml
 
-- Yaml stuff
+- In substreams > substreams.yaml, you'll find a file that outlines the structure of your project.
+- Everytime you add a module in your lib.rs you'll need to specify its structure in the substreams.yaml
+-
 
 ### 1.3 Map module
 
