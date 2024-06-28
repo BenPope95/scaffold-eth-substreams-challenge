@@ -104,7 +104,24 @@ The map_module has mostly been filled out.
 Downstream, your map_module's `input` field can take in `-map: (name of map)` or `-store: (name of store)`.
 It is best practice to only take in `sf.ethereum.type.v2.Block` in your initial map_module.
 
-### 1.3 Map module
+### 1.3 Building the map_module 🏗️
+
+- [ ] Go to `substreams_challenge > src > lib.rs`.
+
+> Every module needs a handler above it: `#[substreams::handlers::(map or store)]` so that your yaml finds the module.
+
+##### What is filled out:
+
+- Your `map_events` module takes in `blk: eth::Block` (blocks).
+- The module returns : `Result<Transfers, substreams::errors::Error>`.
+  > map_modules always return [Result Types](https://doc.rust-lang.org/rust-by-example/error/result.html).
+- `token_meta` is a helper that makes RPC calls to fetch token `name` and `symbol`.
+  > Take a look at rpc.rs if you're curious about how RPC calls work.
+- The `Transfer` protobuf is instantiated for you with `name` and `symbol` populated from `token_meta`. In the `address` field `Hex::Encode` is provided to conveinently convert the address (most likely a Vec<u8>) to a hexadecimal string.
+
+##### Your Goals
+
+-
 
 - Funciton signature, takes block
 - on the block struct, look at the available methods under the "implemntations" section
