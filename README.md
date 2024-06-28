@@ -90,9 +90,17 @@ Because substreams index entire blocks at a time before moving to the next block
 
 ### 1.2 Updating the Yaml
 
-- In substreams > substreams.yaml, you'll find a file that outlines the structure of your project.
-- Everytime you add a module in your lib.rs you'll need to specify its structure in the substreams.yaml
--
+In substreams_challenge > substreams.yaml, you'll find the outline of the project structure.
+When adding new modules, you'll need to specify its structure in the `substream.yaml`.
+There are two kinds of modules you can read about [here](https://substreams.streamingfast.io/documentation/develop/manifest-modules#module-kinds)
+
+- The map_module has mostly been filled out, but you'll need to specify its `name` and `kind`.
+
+TASK: For the name field put `map_events` and for kind, put `map`.
+
+- Your first map_module will always take in blocks, so the `inputs` field needs to specify its `source` as `sf.ethereum.type.v2.Block`
+- Only use the `source` field if you're take in blocks.
+- But map_modules downstream can take in other map_modules or store_modules as inputs directely.
 
 ### 1.3 Map module
 
