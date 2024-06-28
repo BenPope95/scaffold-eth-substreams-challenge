@@ -117,26 +117,26 @@ It is best practice to only take in `sf.ethereum.type.v2.Block` in your initial 
   > map_modules always return [Result Types](https://doc.rust-lang.org/rust-by-example/error/result.html).
 - `token_meta` is a helper that makes RPC calls to fetch token `name` and `symbol`.
   > Take a look at rpc.rs if you're curious about how RPC calls work.
-- The `Transfer` protobuf is instantiated for you with `name` and `symbol` populated from `token_meta`. In the `address` field `Hex::Encode` is provided to conveinently convert the address (most likely a Vec<u8>) to a hexadecimal string.
+- The `Transfer` protobuf is instantiated for you with `name` and `symbol` populated from `token_meta`. In the `address` field `Hex::Encode()` is provided to conveinently convert the address (most likely a `Vec<u8>`) to a hexadecimal string.
+- The `Transfers` protobuf (what the module returns) has also been instantiated.
+- At the top of file we have imported the `TransferEvent` type for you to use.
 
-##### Your Goals
+##### Goal of the module
 
--
+The module should search the block for all ERC721 transfer events, populate the `Transfer` protobuf with the event address, and populate the `Transfers` protobuf with a vector of `Transfer` protobufs.
 
-- Funciton signature, takes block
-- on the block struct, look at the available methods under the "implemntations" section
+---
 
-- WE have already imported the type `TransferEvent` which represents the ERC721 TransferEvent
+- [ ] Look at the [available methods](https://docs.rs/substreams-ethereum/latest/substreams_ethereum/pb/eth/v2/struct.Block.html#implementations) on the Block Struct
 
-- Your goal is to search the blk for all the events that match the `Transafer EVent`
+  > `transactions()`, `reciepts()`, `logs()`, `calls()`, and `events()`, these will allow you to iterate over the block's data.
 
-- The `token_meta` is a struct we made that contrains the fields `name` and `symbol`
-- It makes RPC calls to populate these fields, so you need to provide it with the addres of the matched event, so it can make the call to the token contract.
+- [ ] Look at the [Event Trait](https://docs.rs/substreams-ethereum/latest/substreams_ethereum/trait.Event.html) for helpful methods to deal with events.
 
-- ***
+- [ ] TODO 1: Search the block to find all events that match the `TransferEvent`.
 
-# Yaml Part 2
+- [ ] TODO 2: Pass the address that emmitted the event into `token_meta` so it can make the calls to the correct address.
 
-# Store module
+- [ ] TODO 3: Assign the `address` field on the protobuf the event address.
 
-# Graph Out
+- [ ] TODO 4: Assign the `transfers` field on the `Transfers` protobuf the vector of `transfer` protobufs.
