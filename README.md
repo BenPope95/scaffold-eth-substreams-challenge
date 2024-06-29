@@ -17,13 +17,13 @@ For a quicker, more applicable overview watch [this](https://www.youtube.com/wat
 
 ---
 
-Create a simple Substreams powered Subgraph:
+**Create a simple Substreams powered Subgraph:**
 
-You'll be using a template Substreams to filter through blockchain data and indexing the transfer volume of NFT collections.
+1️⃣ You'll be using a template Substreams to filter through blockchain data and indexing the transfer volume of NFT collections.
 
-Then you'll be outputting the target data into a subgraph.
+2️⃣ Then you'll be outputting the target data into a subgraph.
 
-Finally you'll query the subgraph in a template frontend to display the data with swag. 😎
+3️⃣ Finally you'll query the subgraph in a template frontend to display the data with swag. 😎
 
 ## Checkpoint 0: 📦 Environment 📚
 
@@ -47,21 +47,19 @@ Before you begin, you need to install the following tools:
   yarn install
   ```
 
-Complete the challenge however you want, as long
-as you populate the pb with the required data.
-Just follow our steps if you want a more guided experience.
+Complete the challenge however you want, as long as you populate the pb with the required data. Just follow our steps if you want a more guided experience.
 
 # Checkpoint 1: map_events
 
-Your first module will be a map_module.
+🌏 Your first module will be a map_module.
 [map_modules](https://substreams.streamingfast.io/documentation/develop/manifest-modules#map-modules) are how you will retrieve and filter your data.
 
-## 1.1 Making a Protobuf
+## 1.1 Making a Protobuf 💪
 
 - Protobufs are a language-agnostic way to serialize structured data.
 - Substreams use protobufs to carry data through their modules, so we need to define our protobufs in accordance to the data we want.
 - [Protobufs](https://substreams.streamingfast.io/documentation/develop/creating-protobuf-schemas#protobuf-definition-for-substreams) from the Streamingfast docs.
-- In substreams > proto > contract.proto, make sure your file looks like this:
+- In `substreams > proto > contract.proto`, make sure your file looks like this:
 
 ```proto
 syntax = "proto3";
@@ -81,17 +79,17 @@ repeated Transfer transfers = 1;
 }
 ```
 
-In this challenge your first map_module will return a protobuf called `Transfers`.
+In this challenge your first map_module will return a protobuf called `Transfers`. 🚚 🚚 🚚
 
 Your `Transfers` protobuf is a vector of `Transfer` protobufs.
 
-When returning a protobuf, you always need to return a `Protobuf` that contains a vector of `Protobufs`.
+🍪 When returning a protobuf, you always need to return a single `Protobuf` that contains a vector of `Protobufs`.
 
-Because substreams index entire blocks at a time before moving to the next block, you need to be able to return multiple protobufs.
+🗃️ Because substreams index entire blocks at a time before moving to the next block, you need to be able to return multiple protobufs.
 
 ## 1.2 Updating the Yaml
 
-In substreams_challenge > substreams.yaml, you'll find the outline of the project structure.
+In `substreams_challenge > substreams.yaml`, you'll find the outline of the project structure.
 When adding new modules, you'll need to specify its structure in the `substream.yaml`.
 
 The map_module has mostly been filled out.
