@@ -45,8 +45,6 @@ Before you begin, you need to install the following tools:
 - [Authentication and API key](https://substreams.streamingfast.io/documentation/consume/installing-the-cli#dependency-installation)
   We recommend using the "All-in-one bash function" to make life easier 🤙
 
-  ***
-
   > You'll need to install Scaffold-ETH with
 
   ```sh
@@ -162,9 +160,7 @@ Store modules
 
 This time we only filled out the `initialBlock`.
 
-- [ ] Fill out the `name`
-
-- [ ] Fill out the `kind`
+- [ ] Fill out the `name` and `kind`
 
 - [ ] Look at the [updatePolicy](https://substreams.streamingfast.io/documentation/develop/manifest-modules/types#updatepolicy-property) property
 
@@ -176,18 +172,17 @@ This time we only filled out the `initialBlock`.
 
 - [ ] Look at the [stores](https://docs.rs/substreams/latest/substreams/store/index.html#structs) in the substreams docs.
 
-  > Notice: Most of the stores are a combination of an `updatePolicy` and a `valueType`. You will be using `StoreAddInt64`.
+  Notice: Most of the stores are a combination of an `updatePolicy` and a `valueType`.
+
+  You will be using `StoreAddInt64`.
 
   > NOTE: the [substreams](https://docs.rs/substreams/latest/substreams/index.html).rs library is a different library than the [substreams-ethereum](https://docs.rs/substreams-ethereum/latest/substreams_ethereum/index.html).rs library that you used for the map_modules.
 
 - [ ] Now fill out `updatePolicy` and `valueType` appropriately
 
-store_modules take in the same inputs as map_modules.
+> store_modules take in the same inputs as map_modules.
 
-- [ ] Under `inputs` of the store fill in the `-map` field with the name of our map_module
-
-Downstream, your map_module's `input` field can take in `-map: (name of map)` or `-store: (name of store)`.
-It is best practice to only take in `sf.ethereum.type.v2.Block` in your initial map_module.
+- [ ] Under `inputs` fill in the `-map` field with the name of our map_module
 
 #### What is filled out:
 
