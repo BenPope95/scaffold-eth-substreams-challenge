@@ -6,10 +6,7 @@ use crate::rpc::TokenMeta;
 use ethabi::token;
 use hex_literal::hex;
 use pb::contract::v1::{self as contract, Transfer, Transfers};
-use substreams::store::{
-    StoreAdd, StoreAddInt64, StoreGet, StoreGetInt64, StoreGetProto, StoreNew, StoreSet,
-    StoreSetIfNotExists, StoreSetIfNotExistsProto,
-};
+use substreams::store::{StoreAdd, StoreAddInt64, StoreGet, StoreGetInt64, StoreNew};
 use substreams::Hex;
 use substreams_database_change::pb::database::DatabaseChanges;
 use substreams_database_change::tables::Tables as DatabaseChangeTables;
@@ -23,7 +20,6 @@ use substreams_ethereum::Event;
 use num_traits::cast::ToPrimitive;
 use std::str::FromStr;
 use substreams::scalar::BigDecimal;
-
 
 substreams_ethereum::init!();
 

@@ -15,11 +15,15 @@ For a basic introduction to Substreams, watch this [video](https://www.youtube.c
 
 For a quicker, more applicable overview watch [this](https://www.youtube.com/watch?v=vWYuOczDiAA&t=27s)
 
+Substreams are composed of two types of modules:
+[map_modules](https://substreams.streamingfast.io/documentation/develop/manifest-modules#map-modules) are how you will retrieve and filter your data.
+[store_modules](https://substreams.streamingfast.io/documentation/develop/manifest-modules#store-modules) are used to aggregate and store values for later use downstream.
+
 ---
 
-Create a simple Substreams:
+Create a simple Substreams powered Subgraph:
 
-You'll be using a template Substreams to filter through blockchain data and indexing the transaction volume of NFTs.
+You'll be using a template Substreams to filter through blockchain data and indexing the transfer volume of NFT collections.
 
 Then you'll be outputting the target data into a subgraph.
 
@@ -53,9 +57,9 @@ Complete the challenge however you want, as long
 as you populate the pb with the required data.
 Just follow our steps if you want a more guided experience.
 
-# Checkpoint 1: map_module
+# Checkpoint 1: map_events
 
-### 1.1 Making a Protobuf
+## 1.1 Making a Protobuf
 
 - Protobufs are a language-agnostic way to serialize structured data.
 - Substreams use protobufs to carry data through their modules, so we need to define our protobufs in accordance to the data we want.
@@ -88,29 +92,32 @@ When returning a protobuf, you always need to return a `Protobuf` that contains 
 
 Because substreams index entire blocks at a time before moving to the next block, you need to be able to return multiple protobufs.
 
-### 1.2 Updating the Yaml
+## 1.2 Updating the Yaml
 
 In substreams_challenge > substreams.yaml, you'll find the outline of the project structure.
 When adding new modules, you'll need to specify its structure in the `substream.yaml`.
-There are two kinds of modules you can read about [here](https://substreams.streamingfast.io/documentation/develop/manifest-modules#module-kinds)
 
 The map_module has mostly been filled out.
 
 - [ ] For the name field put `map_events`
 - [ ] For the kind field put `map`.
 
-- Your first map_module will always take in blocks, so the `inputs` field needs `- source: sf.ethereum.type.v2.Block`.
+- Your first module will take in `block`s, so the `inputs` field needs `- source: sf.ethereum.type.v2.Block`.
+  > Your first module can additionally take in `params` or `clock`, but it will always take in `block`.
 
-Downstream, your map_module's `input` field can take in `-map: (name of map)` or `-store: (name of store)`.
-It is best practice to only take in `sf.ethereum.type.v2.Block` in your initial map_module.
+Downstream, your map_module's `input` field can take in any of the following [inputs](https://substreams.streamingfast.io/documentation/develop/manifest-modules/inputs#inputs-overview).
 
-### 1.3 Building the map_module 🏗️
+It is best practice to only take in `sf.ethereum.type.v2.Block` in your initial map_module so you're only iterating over the block in one module.
+
+- The `output:` is `type: proto:contract.v1.Transfers` which is the `Transfers` protobuf.
+
+## 1.3 Building the map_module 🏗️
 
 - [ ] Go to `substreams_challenge > src > lib.rs`.
 
 > Every module needs a handler above it: `#[substreams::handlers::(map or store)]` so that your yaml finds the module.
 
-##### What is filled out:
+#### What is filled out:
 
 - Your `map_events` module takes in `blk: eth::Block` (blocks).
 - The module returns : `Result<Transfers, substreams::errors::Error>`.
@@ -121,11 +128,13 @@ It is best practice to only take in `sf.ethereum.type.v2.Block` in your initial 
 - The `Transfers` protobuf (what the module returns) has also been instantiated.
 - At the top of file we have imported the `TransferEvent` type for you to use.
 
-##### Goal of the module
+#### Goal of the module
 
 The module should search the block for all ERC721 transfer events, populate the `Transfer` protobuf with the event address, and populate the `Transfers` protobuf with a vector of `Transfer` protobufs.
 
 ---
+
+### Your Goals
 
 - [ ] Look at the [available methods](https://docs.rs/substreams-ethereum/latest/substreams_ethereum/pb/eth/v2/struct.Block.html#implementations) on the Block Struct
 
@@ -140,3 +149,46 @@ The module should search the block for all ERC721 transfer events, populate the 
 - [ ] TODO 3: Assign the `address` field on the protobuf the event address.
 
 - [ ] TODO 4: Assign the `transfers` field on the `Transfers` protobuf the vector of `transfer` protobufs.
+
+---
+
+# Checkpoint 2: store_transfer_volume
+
+Store modules
+
+## 2.1 Updating the yaml (again)
+
+- [ ] Go back to the substreams.yaml
+
+This time we only filled out the `initialBlock`.
+
+- [ ] Fill out the `name`
+
+- [ ] Fill out the `kind`
+
+- [ ] Look at the [updatePolicy](https://substreams.streamingfast.io/documentation/develop/manifest-modules/types#updatepolicy-property) property
+
+  > These are the available options for `updatePolicy`
+
+- [ ] Look at the [valueType](https://substreams.streamingfast.io/documentation/develop/manifest-modules/types#valuetype-property) property
+
+  > These are the available options for `valueType`
+
+- [ ] Look at the [stores](https://docs.rs/substreams/latest/substreams/store/index.html#structs) in the substreams docs.
+
+  > Notice: Most of the stores are a combination of an `updatePolicy` and a `valueType`. You will be using `StoreAddInt64`.
+
+  > NOTE: the [substreams](https://docs.rs/substreams/latest/substreams/index.html).rs library is a different library than the [substreams-ethereum](https://docs.rs/substreams-ethereum/latest/substreams_ethereum/index.html).rs library that you used for the map_modules.
+
+- [ ] Now fill out `updatePolicy` and `valueType` appropriately
+
+store_modules take in the same inputs as map_modules.
+
+- [ ] Under `inputs` of the store fill in the `-map` field with the name of our map_module
+
+Downstream, your map_module's `input` field can take in `-map: (name of map)` or `-store: (name of store)`.
+It is best practice to only take in `sf.ethereum.type.v2.Block` in your initial map_module.
+
+#### What is filled out:
+
+-
