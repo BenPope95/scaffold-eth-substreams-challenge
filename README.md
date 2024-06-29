@@ -15,10 +15,6 @@ For a basic introduction to Substreams, watch this [video](https://www.youtube.c
 
 For a quicker, more applicable overview watch [this](https://www.youtube.com/watch?v=vWYuOczDiAA&t=27s)
 
-Substreams are composed of two types of modules:
-[map_modules](https://substreams.streamingfast.io/documentation/develop/manifest-modules#map-modules) are how you will retrieve and filter your data.
-[store_modules](https://substreams.streamingfast.io/documentation/develop/manifest-modules#store-modules) are used to aggregate and store values for later use downstream.
-
 ---
 
 Create a simple Substreams powered Subgraph:
@@ -56,6 +52,9 @@ as you populate the pb with the required data.
 Just follow our steps if you want a more guided experience.
 
 # Checkpoint 1: map_events
+
+Your first module will be a map_module.
+[map_modules](https://substreams.streamingfast.io/documentation/develop/manifest-modules#map-modules) are how you will retrieve and filter your data.
 
 ## 1.1 Making a Protobuf
 
@@ -105,7 +104,7 @@ The map_module has mostly been filled out.
 
 Downstream, your map_module's `input` field can take in any of the following [inputs](https://substreams.streamingfast.io/documentation/develop/manifest-modules/inputs#inputs-overview).
 
-It is best practice to only take in `sf.ethereum.type.v2.Block` in your initial map_module so you're only iterating over the block in one module.
+It is best practice to only take in `sf.ethereum.type.v2.Block` in your first module so you're only iterating over the block in one module.
 
 - The `output:` is `type: proto:contract.v1.Transfers` which is the `Transfers` protobuf.
 
@@ -152,7 +151,8 @@ The module should search the block for all ERC721 transfer events, populate the 
 
 # Checkpoint 2: store_transfer_volume
 
-Store modules
+The next module you'll be builidng is a store_module.
+[store_modules](https://substreams.streamingfast.io/documentation/develop/manifest-modules#store-modules) are used to aggregate and store values through the use of key value pairs.
 
 ## 2.1 Updating the yaml (again)
 
@@ -160,7 +160,9 @@ Store modules
 
 This time we only filled out the `initialBlock`.
 
-- [ ] Fill out the `name` and `kind`
+- [ ] Fill out the `name` with `store_transfer_volume`
+
+- [ ] Fill out the `kind` with `store`
 
 - [ ] Look at the [updatePolicy](https://substreams.streamingfast.io/documentation/develop/manifest-modules/types#updatepolicy-property) property
 
@@ -176,14 +178,31 @@ This time we only filled out the `initialBlock`.
 
   You will be using `StoreAddInt64`.
 
-  > NOTE: the [substreams](https://docs.rs/substreams/latest/substreams/index.html).rs library is a different library than the [substreams-ethereum](https://docs.rs/substreams-ethereum/latest/substreams_ethereum/index.html).rs library that you used for the map_modules.
+> NOTE: the [substreams](https://docs.rs/substreams/latest/substreams/index.html).rs library is a different library than the [substreams-ethereum](https://docs.rs/substreams-ethereum/latest/substreams_ethereum/index.html).rs library that you used for the map_modules.
 
 - [ ] Now fill out `updatePolicy` and `valueType` appropriately
 
 > store_modules take in the same inputs as map_modules.
+> Unlike map_modules, store_modules do not have outputs.
 
 - [ ] Under `inputs` fill in the `-map` field with the name of our map_module
 
+## 2.2 Building the store_module
+
+- [ ] Go to `substreams_challenge > src > lib.rs`.
+
 #### What is filled out:
 
--
+- Your `store_transfer_volume` module takes in the `transfers: Transfers` protobuf outputted by `map_events`, as the first argument.
+- At the top of file we have imported the `StoreAddInt64` type, along with `StoreAdd` and `StoreNew` traits.
+  > You need to import the corresponding traits (such as `StoreAdd` and `StoreNew` for `StoreAddInt64`) to use the store types.
+
+#### The Goal of the module
+
+The module iterate over the `Transfers` and for each unique address increment the store value by 1.
+
+### Your Goals
+
+- [ ] Pass in the appropiate store type as the second argument
+- [ ] iterate over transfers
+- [ ] Use the appropriate method on the store type you passed in
