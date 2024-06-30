@@ -15,8 +15,6 @@ For a basic introduction to Substreams, watch this [video](https://www.youtube.c
 
 For a quicker, more applicable overview watch [this](https://www.youtube.com/watch?v=vWYuOczDiAA&t=27s)
 
----
-
 **Create a simple Substreams powered Subgraph:**
 
 1️⃣ You'll be using a template Substreams to filter through blockchain data and indexing the transfer volume of NFT collections.
@@ -24,6 +22,8 @@ For a quicker, more applicable overview watch [this](https://www.youtube.com/wat
 2️⃣ Then you'll be outputting the target data into a subgraph.
 
 3️⃣ Finally you'll query the subgraph in a template frontend to display the data with swag. 😎
+
+---
 
 ## Checkpoint 0: 📦 Environment 📚
 
@@ -49,7 +49,9 @@ Before you begin, you need to install the following tools:
 
 Complete the challenge however you want, as long as you populate the pb with the required data. Just follow our steps if you want a more guided experience.
 
-# Checkpoint 1: map_events
+---
+
+# Checkpoint 1: 🌎 map_events 🎇
 
 🌏 Your first module will be a map_module.
 [map_modules](https://substreams.streamingfast.io/documentation/develop/manifest-modules#map-modules) are how you will retrieve and filter your data.
@@ -112,7 +114,7 @@ It is best practice to only take in `sf.ethereum.type.v2.Block` in your first mo
 
 > Every module needs a handler above it: `#[substreams::handlers::(map or store)]` so that your yaml finds the module.
 
-### What is filled out:
+### 🖊️ What is filled out:
 
 - Your `map_events` module takes in `blk: eth::Block` (blocks).
 - The module returns : `Result<Transfers, substreams::errors::Error>`.
@@ -123,11 +125,9 @@ It is best practice to only take in `sf.ethereum.type.v2.Block` in your first mo
 - The `Transfers` protobuf (what the module returns) has also been instantiated.
 - At the top of file we have imported the `TransferEvent` type for you to use.
 
-### Goal of the module
+### 🥅 Goal of the module
 
-The module should search the block for all ERC721 transfer events, populate the `Transfer` protobuf with the event address, and populate the `Transfers` protobuf with a vector of `Transfer` protobufs.
-
----
+The module should search the block for all ERC721 transfer events, 🎇 populate the `Transfer` protobuf with the event address, and populate 👫 the `Transfers` protobuf with a vector of `Transfer` protobufs.
 
 ## 🥅 Your Goals
 
@@ -137,13 +137,13 @@ The module should search the block for all ERC721 transfer events, populate the 
 
 - [ ] Look at the [Event Trait](https://docs.rs/substreams-ethereum/latest/substreams_ethereum/trait.Event.html) for helpful methods to deal with events.
 
-- [ ] TODO 1: Search the block to find all events that match the `TransferEvent`.
+- [ ] TODO 1: Search 🔍 the block to find all events that match the `TransferEvent`.
 
-- [ ] TODO 2: Pass the address that emmitted the event into `token_meta` so it can make the calls to the correct address.
+- [ ] TODO 2: Pass the address that emmitted the event 🎇 into `token_meta` so it can make the calls to the correct address.
 
-- [ ] TODO 3: Assign the `address` field on the protobuf the event address.
+- [ ] TODO 3: Assign 🧑‍🏫 the `address` field on the protobuf the event address.
 
-- [ ] TODO 4: Assign the `transfers` field on the `Transfers` protobuf the vector of `transfer` protobufs.
+- [ ] TODO 4: Assign the `transfers` field 🧑‍🌾 on the `Transfers` protobuf the vector of `transfer` protobufs.
 
 ---
 
@@ -156,7 +156,7 @@ The next module you'll be builidng is a store_module.
 
 - [ ] Go back to the substreams.yaml
 
-This time we only filled out the `initialBlock`.
+This time we only filled out the `initialBlock`. 📥
 
 - [ ] Fill out the `name` with `store_transfer_volume`
 
@@ -189,13 +189,13 @@ This time we only filled out the `initialBlock`.
 
 - [ ] Go to `substreams_challenge > src > lib.rs`.
 
-#### What is filled out:
+### 🖊️ What is filled out:
 
 - Your `store_transfer_volume` module takes in the `transfers: Transfers` protobuf outputted by `map_events`, as the first argument.
 - At the top of file we have imported the `StoreAddInt64` type, along with `StoreAdd` and `StoreNew` traits.
   > You need to import the corresponding traits (such as `StoreAdd` and `StoreNew` for `StoreAddInt64`) to use the store types.
 
-#### The Goal of the module
+#### 🥅 The Goal of the module
 
 The module iterate over the `Transfers` and for each unique address increment the store value by 1.
 
