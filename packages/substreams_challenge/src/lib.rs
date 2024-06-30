@@ -54,6 +54,7 @@ fn store_transfer_volume(transfers: Transfers, store: StoreAddInt64) {
 #[substreams::handlers::map]
 fn graph_out(
     transfers: Transfers,
+    // change token_meta arg to something else
     token_meta: StoreGetInt64,
 ) -> Result<EntityChanges, substreams::errors::Error> {
     // Initialize changes container

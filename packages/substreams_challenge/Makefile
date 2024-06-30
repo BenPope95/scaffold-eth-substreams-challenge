@@ -1,6 +1,6 @@
 CARGO_VERSION := $(shell cargo version 2>/dev/null)
 START_BLOCK ?= 12287507
-STOP_BLOCK ?= +1000
+STOP_BLOCK ?= +100
 
 .PHONY: build
 build:
