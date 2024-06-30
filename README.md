@@ -89,6 +89,20 @@ Your `Transfers` protobuf is a vector of `Transfer` protobufs.
 
 🗃️ Because substreams index entire blocks at a time before moving to the next block, you need to be able to return multiple protobufs.
 
+## Generating the protobuf
+
+You'll need to run a command to generate the protobufs after defining them.
+
+- [ ] Open your `Makefile`
+
+> This contains commands you will use to build and test your substreams as you go.
+
+- [ ] Generate your protobufs by running:
+
+```sh
+make protogen
+```
+
 ## 1.2 🍠 Updating the Yaml
 
 In `substreams_challenge > substreams.yaml`, you'll find the outline of the project structure.
@@ -117,7 +131,7 @@ It is best practice to only take in `sf.ethereum.type.v2.Block` in your first mo
 ### 🖊️ What is filled out:
 
 - Your `map_events` module takes in `blk: eth::Block` (blocks).
-- The module returns : `Result<Transfers, substreams::errors::Error>`.
+- The module returns: `Result<Transfers, substreams::errors::Error>`.
   > map_modules always return [Result Types](https://doc.rust-lang.org/rust-by-example/error/result.html).
 - `token_meta` is a helper that makes RPC calls to fetch token `name` and `symbol`.
   > Take a look at rpc.rs if you're curious about how RPC calls work.
@@ -144,6 +158,54 @@ The module should search the block for all ERC721 transfer events, 🎇 populate
 - [ ] TODO 3: Assign 🧑‍🏫 the `address` field on the protobuf the event address.
 
 - [ ] TODO 4: Assign the `transfers` field 🧑‍🌾 on the `Transfers` protobuf the vector of `transfer` protobufs.
+
+## Testing your map_module
+
+- [ ] Go back to your Makefile
+
+In the terminal running the following commands will do:
+
+- `make run` will run your map_module and display the output in the terminal block by block
+
+- `make gui` will run your substreams and allow you to jump to the outputs of specific blocks
+
+🚧 For `make run` and `gui`, the `START_BLOCK` needs to be the same as in the `substreams.yaml`
+
+> The STOP_BLOCK will be how many blocks you run
+
+🚧 Your API key has a certain limit, so don't test on too large of a block range!
+
+- [ ] Run `make gui` and use TAB to navigate to the Output tab
+
+> You can view the output of each block by using "o" and "p" to scroll left and right accross blocks
+
+- ✅ Check that block #12,287,507 looks like this:
+
+```
+{
+  "transfers": [
+    {
+      "address": "890c3b095fb0da2f610f4a3276db0a34591550a2",
+      "name": "ROCKY GATEWAY Open Edition by A$AP Rocky",
+      "symbol": "ROCKYGATEWAYOPENEDITIONBYAAPROCKY"
+    },
+    {
+      "address": "50b8740d6a5cd985e2b8119ca28b481afa8351d9",
+      "name": "RTFKT",
+      "symbol": "RTFKT"
+    },
+    {
+      "address": "a7d8d9ef8d8ce8992df33d8b8cf4aebabd5bd270",
+      "name": "Art Blocks",
+      "symbol": "BLOCKS"
+    }
+  ]
+}
+```
+
+If it does, you've completed the map_module correctly, congratulations! 🎊
+
+🕐 Now its time to aggregate the `Transfers` with a store_module!
 
 ---
 
@@ -197,10 +259,81 @@ This time we only filled out the `initialBlock`. 📥
 
 #### 🥅 The Goal of the module
 
-The module iterate over the `Transfers` and for each unique address increment the store value by 1.
+The module should iterate over the `Transfers` and for each unique address increment the store value by 1.
 
 ### 🥅 Your Goals
 
 - [ ] Pass in the appropiate store type as the second argument
-- [ ] iterate over transfers
-- [ ] Use the appropriate method on the store type you passed in
+- [ ] Iterate over transfers
+- [ ] Look at the available methods on Docs.rs for your store under the Trait Implementation section
+- [ ] Use the `.add()` method on the store you passed in
+  > The first argument for `.add()` is ord ([ordinal](https://substreams.streamingfast.io/documentation/develop/manifest-modules/writing-module-handlers#ordinal)), we won't be using ordinals so put 0 for that argument.
+
+🚧 You cannot use `make run` or `make gui` to test your store_module because they don't have outputs
+
+But we have provided a map_module for the purpose of testing your store_module.
+
+---
+
+# Checkpoint 3: 📈 graph_out
+
+[graph_out](https://substreams.streamingfast.io/documentation/consume/subgraph) builds `EntityChanges` that will be outputted into your subgraph.
+
+🚧 Notice the handler above `graph_out`, indicates that graph_out is a map_module.
+
+## 2.1 🍠 Updating the yaml (again)
+
+- [ ] With your new-found .yaml experience, fill out the rest of the substreams.yaml for graph_out
+
+### schema.graphql
+
+> Your subgraph needs a [schema](https://thegraph.com/docs/en/developing/unit-testing-framework/#example-schemagraphql) to define the entities you'll be querying.
+
+We've provided the following for you:
+
+```graphql
+type transfer_volume @entity {
+  id: ID!
+  name: String!
+  symbol: String!
+  address: String!
+  volume: BigInt!
+}
+```
+
+### Goal of the module
+
+It should iterate over the `Transfers` and for each `Transfer` it should retrieve the `volume` from the store, then build the `transfer_volume` entity.
+
+### 🖊️ What is filled out:
+
+- The module_returns `Result<EntityChanges, substreams::errors::Error>`
+- The `EntityChanges` container has been initialized
+- The `Ok` variant returning the `EntityChanges`
+
+### Your Goals
+
+Because stores don't have outputs you'll need to import a new store type to access the storage values.
+
+[Stores](https://substreams.streamingfast.io/documentation/develop/manifest-modules/types#store-modes) have two modes for retrieving data. You will be using "get mode" for this module.
+
+- [ ] Look at the library and import the appropriate store type
+- [ ] Import the corresponding trait to use the store's methods
+- [ ] Pass in the store as the first function argument
+- [ ] Pass in the second argument (look at your yaml)
+- [ ] Find
+
+TODO: send docs.rs for tables and rows (sperate librrary)
+use the right methods they need to
+
+- also graph our argument order matters
+
+-testing for the graph out
+-testing for the store (rust)
+
+findish it
+
+You need to get data from your store, but stores don't have outputs. So you'll need to use a get method. Stores have two-modes for when u want to get stuff
+
+- [ ] figure out they need StoreGet and import it corresponding trait
+- [ ] transfers args
