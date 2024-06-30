@@ -87,7 +87,7 @@ Your `Transfers` protobuf is a vector of `Transfer` protobufs.
 
 🗃️ Because substreams index entire blocks at a time before moving to the next block, you need to be able to return multiple protobufs.
 
-## 1.2 Updating the Yaml
+## 1.2 🍠 Updating the Yaml
 
 In `substreams_challenge > substreams.yaml`, you'll find the outline of the project structure.
 When adding new modules, you'll need to specify its structure in the `substream.yaml`.
@@ -112,7 +112,7 @@ It is best practice to only take in `sf.ethereum.type.v2.Block` in your first mo
 
 > Every module needs a handler above it: `#[substreams::handlers::(map or store)]` so that your yaml finds the module.
 
-#### What is filled out:
+### What is filled out:
 
 - Your `map_events` module takes in `blk: eth::Block` (blocks).
 - The module returns : `Result<Transfers, substreams::errors::Error>`.
@@ -123,13 +123,13 @@ It is best practice to only take in `sf.ethereum.type.v2.Block` in your first mo
 - The `Transfers` protobuf (what the module returns) has also been instantiated.
 - At the top of file we have imported the `TransferEvent` type for you to use.
 
-#### Goal of the module
+### Goal of the module
 
 The module should search the block for all ERC721 transfer events, populate the `Transfer` protobuf with the event address, and populate the `Transfers` protobuf with a vector of `Transfer` protobufs.
 
 ---
 
-### Your Goals
+## 🥅 Your Goals
 
 - [ ] Look at the [available methods](https://docs.rs/substreams-ethereum/latest/substreams_ethereum/pb/eth/v2/struct.Block.html#implementations) on the Block Struct
 
@@ -147,12 +147,12 @@ The module should search the block for all ERC721 transfer events, populate the 
 
 ---
 
-# Checkpoint 2: store_transfer_volume
+# Checkpoint 2: 🏪 store_transfer_volume 🔊
 
 The next module you'll be builidng is a store_module.
 [store_modules](https://substreams.streamingfast.io/documentation/develop/manifest-modules#store-modules) are used to aggregate and store values through the use of key value pairs.
 
-## 2.1 Updating the yaml (again)
+## 2.1 🍠 Updating the yaml (again)
 
 - [ ] Go back to the substreams.yaml
 
@@ -162,30 +162,30 @@ This time we only filled out the `initialBlock`.
 
 - [ ] Fill out the `kind` with `store`
 
-- [ ] Look at the [updatePolicy](https://substreams.streamingfast.io/documentation/develop/manifest-modules/types#updatepolicy-property) property
+- [ ] 👀 Look at the [updatePolicy](https://substreams.streamingfast.io/documentation/develop/manifest-modules/types#updatepolicy-property) property
 
   > These are the available options for `updatePolicy`
 
-- [ ] Look at the [valueType](https://substreams.streamingfast.io/documentation/develop/manifest-modules/types#valuetype-property) property
+- [ ] 👀 Look at the [valueType](https://substreams.streamingfast.io/documentation/develop/manifest-modules/types#valuetype-property) property
 
   > These are the available options for `valueType`
 
-- [ ] Look at the [stores](https://docs.rs/substreams/latest/substreams/store/index.html#structs) in the substreams docs.
+- [ ] 👀 Look at the [stores](https://docs.rs/substreams/latest/substreams/store/index.html#structs) in the substreams docs.
 
-  Notice: Most of the stores are a combination of an `updatePolicy` and a `valueType`.
+  🚧 Notice: Most of the stores are a combination of an `updatePolicy` and a `valueType`.
 
   You will be using `StoreAddInt64`.
 
 > NOTE: the [substreams](https://docs.rs/substreams/latest/substreams/index.html).rs library is a different library than the [substreams-ethereum](https://docs.rs/substreams-ethereum/latest/substreams_ethereum/index.html).rs library that you used for the map_modules.
 
-- [ ] Now fill out `updatePolicy` and `valueType` appropriately
+- [ ] ✏️ Now fill out `updatePolicy` and `valueType` appropriately
 
-> store_modules take in the same inputs as map_modules.
-> Unlike map_modules, store_modules do not have outputs.
+> 🔄 store_modules take in the same inputs as map_modules.
+> 🚫 Unlike map_modules, store_modules do not have outputs.
 
 - [ ] Under `inputs` fill in the `-map` field with the name of our map_module
 
-## 2.2 Building the store_module
+## 2.2 🏪 Building the store_module
 
 - [ ] Go to `substreams_challenge > src > lib.rs`.
 
@@ -199,7 +199,7 @@ This time we only filled out the `initialBlock`.
 
 The module iterate over the `Transfers` and for each unique address increment the store value by 1.
 
-### Your Goals
+### 🥅 Your Goals
 
 - [ ] Pass in the appropiate store type as the second argument
 - [ ] iterate over transfers
