@@ -25,7 +25,7 @@ For a quicker, more applicable overview watch [this](https://www.youtube.com/wat
 
 ---
 
-## Checkpoint 0: 📦 Environment 📚
+# Checkpoint 0: 📦 Environment 📚
 
 Before you begin, you need to install the following tools:
 
@@ -47,14 +47,25 @@ Before you begin, you need to install the following tools:
   yarn install
   ```
 
-Complete the challenge however you want, as long as you populate the pb with the required data. Just follow our steps if you want a more guided experience.
+🕺 Complete the challenge however you want, as long as your result looks the same as ours.
+
+🛩️ Follow our steps if you want a more guided experience.
+
+🎣 Our goal (as authors) is not to give you fish, but to teach you to fish.
+
+🧠 The challenge will require you to think, problem solve, and try different things.
+
+🚧 It's a challenge, not a tutorial. But the goal is that you'll learn more from this challenge than any tutorial could teach.
 
 ---
 
-# Checkpoint 1: 🌎 map_events 🎇
+# 🌎 Checkpoint 1: map_events 🎇
 
-🌏 Your first module will be a map_module.
+Your first module will be a map_module.
+
 [map_modules](https://substreams.streamingfast.io/documentation/develop/manifest-modules#map-modules) are how you will retrieve and filter your data.
+
+When adding new modules, therses
 
 ## 1.1 Making a Protobuf 💪
 
@@ -103,7 +114,7 @@ You'll need to run a command to generate the protobufs after defining them.
 make protogen
 ```
 
-## 1.2 🍠 Updating the Yaml
+## 🍠 1.2 Updating the Yaml
 
 In `substreams_challenge > substreams.yaml`, you'll find the outline of the project structure.
 When adding new modules, you'll need to specify its structure in the `substream.yaml`.
@@ -122,7 +133,7 @@ It is best practice to only take in `sf.ethereum.type.v2.Block` in your first mo
 
 - The `output:` is `type: proto:contract.v1.Transfers` which is the `Transfers` protobuf.
 
-## 1.3 Building the map_module 🏗️
+## 1.3 🏗️ Building the map_module
 
 - [ ] Go to `substreams_challenge > src > lib.rs`.
 
@@ -139,11 +150,11 @@ It is best practice to only take in `sf.ethereum.type.v2.Block` in your first mo
 - The `Transfers` protobuf (what the module returns) has also been instantiated.
 - At the top of file we have imported the `TransferEvent` type for you to use.
 
-### 🥅 Goal of the module
+## 🥅 Goal of the module
 
 The module should search the block for all ERC721 transfer events, 🎇 populate the `Transfer` protobuf with the event address, and populate 👫 the `Transfers` protobuf with a vector of `Transfer` protobufs.
 
-## 🥅 Your Goals
+## 🎖️ Your Goals
 
 - [ ] Look at the [available methods](https://docs.rs/substreams-ethereum/latest/substreams_ethereum/pb/eth/v2/struct.Block.html#implementations) on the Block Struct
 
@@ -159,7 +170,7 @@ The module should search the block for all ERC721 transfer events, 🎇 populate
 
 - [ ] TODO 4: Assign the `transfers` field 🧑‍🌾 on the `Transfers` protobuf the vector of `transfer` protobufs.
 
-## Testing your map_module
+## 👷 Testing your map_module
 
 - [ ] Go back to your Makefile
 
@@ -214,7 +225,7 @@ If it does, you've completed the map_module correctly, congratulations! 🎊
 The next module you'll be builidng is a store_module.
 [store_modules](https://substreams.streamingfast.io/documentation/develop/manifest-modules#store-modules) are used to aggregate and store values through the use of key value pairs.
 
-## 2.1 🍠 Updating the yaml (again)
+## 🍠 2.1 Updating the yaml (again)
 
 - [ ] Go back to the substreams.yaml
 
@@ -247,7 +258,7 @@ This time we only filled out the `initialBlock`. 📥
 
 - [ ] Under `inputs` fill in the `-map` field with the name of our map_module
 
-## 2.2 🏪 Building the store_module
+## 🏪 2.2 Building the store_module
 
 - [ ] Go to `substreams_challenge > src > lib.rs`.
 
@@ -257,11 +268,11 @@ This time we only filled out the `initialBlock`. 📥
 - At the top of file we have imported the `StoreAddInt64` type, along with `StoreAdd` and `StoreNew` traits.
   > You need to import the corresponding traits (such as `StoreAdd` and `StoreNew` for `StoreAddInt64`) to use the store types.
 
-#### 🥅 The Goal of the module
+### 🥅 The Goal of the module
 
 The module should iterate over the `Transfers` and for each unique address increment the store value by 1.
 
-### 🥅 Your Goals
+### 🎖️ Your Goals
 
 - [ ] Pass in the appropiate store type as the second argument
 - [ ] Iterate over transfers
@@ -275,13 +286,13 @@ But we have provided a map_module for the purpose of testing your store_module.
 
 ---
 
-# Checkpoint 3: 📈 graph_out
+# 📈 Checkpoint 3: graph_out 🛵
 
 [graph_out](https://substreams.streamingfast.io/documentation/consume/subgraph) builds `EntityChanges` that will be outputted into your subgraph.
 
 🚧 Notice the handler above `graph_out`, indicates that graph_out is a map_module.
 
-## 2.1 🍠 Updating the yaml (again)
+## 🍠 3.1 Updating the yaml (again)
 
 - [ ] With your new-found .yaml experience, fill out the rest of the substreams.yaml for graph_out
 
@@ -301,9 +312,9 @@ type transfer_volume @entity {
 }
 ```
 
-### Goal of the module
+### 🥅 Goal of the module
 
-It should iterate over the `Transfers` and for each `Transfer` it should retrieve the `volume` from the store, then build the `transfer_volume` entity.
+It should iterate ♻️ over the `Transfers` and for each `Transfer` it should retrieve 🏃 the `volume` from the store, then build the `transfer_volume` entity. 👽
 
 ### 🖊️ What is filled out:
 
@@ -311,22 +322,20 @@ It should iterate over the `Transfers` and for each `Transfer` it should retriev
 - The `EntityChanges` container has been initialized
 - The `Ok` variant returning the `EntityChanges`
 
-### Your Goals
+### 🎖️ Your Goals
 
-Because stores don't have outputs you'll need to import a new store type to access the storage values.
+Because stores don't have outputs you'll need to import a new store type to access the storage values. 🏘️
 
 [Stores](https://substreams.streamingfast.io/documentation/develop/manifest-modules/types#store-modes) have two modes for retrieving data. You will be using "get mode" for this module.
 
-- [ ] Look at the library and import the appropriate store type
+- [ ] Look at the library 📚 and import the appropriate store type
 - [ ] Import the corresponding trait to use the store's methods
-- [ ] Pass in the store as the first function argument
+- [ ] Pass in the store 🏪 as the first function argument
 - [ ] Pass in the second argument (look at your yaml)
 - [ ] Find
 
 TODO: send docs.rs for tables and rows (sperate librrary)
 use the right methods they need to
-
-- also graph our argument order matters
 
 -testing for the graph out
 -testing for the store (rust)
