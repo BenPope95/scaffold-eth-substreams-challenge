@@ -1,6 +1,7 @@
 CARGO_VERSION := $(shell cargo version 2>/dev/null)
 START_BLOCK ?= 12287507
 STOP_BLOCK ?= +100
+MODULE ?= graph_out
 
 .PHONY: build
 build:
@@ -13,11 +14,11 @@ endif
 
 .PHONY: run
 run: build
-	substreams run substreams.yaml graph_out $(if $(START_BLOCK),-s $(START_BLOCK)) $(if $(STOP_BLOCK),-t $(STOP_BLOCK))
+	substreams run substreams.yaml $(MODULE) $(if $(START_BLOCK),-s $(START_BLOCK)) $(if $(STOP_BLOCK),-t $(STOP_BLOCK))
 
 .PHONY: gui
 gui: build
-	substreams gui substreams.yaml map_events $(if $(START_BLOCK),-s $(START_BLOCK)) $(if $(STOP_BLOCK),-t $(STOP_BLOCK))
+	substreams gui substreams.yaml $(MODULE) $(if $(START_BLOCK),-s $(START_BLOCK)) $(if $(STOP_BLOCK),-t $(STOP_BLOCK))
 
 .PHONY: protogen
 protogen:

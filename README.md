@@ -174,9 +174,11 @@ The module should search the block for all ERC721 transfer events, 🎇 populate
 
 - [ ] Go back to your Makefile
 
+- [ ] Assign the `MODULE` variable the name of the module you want to test
+
 In the terminal running the following commands will do:
 
-- `make run` will run your map_module and display the output in the terminal block by block
+- `make run` will run your module and display the output in the terminal block by block
 
 - `make gui` will run your substreams and allow you to jump to the outputs of specific blocks
 
@@ -342,12 +344,54 @@ Because stores don't have outputs you'll need to import a new store type to acce
 
 - [ ] Create a row on the table, and set the value of each field
 - [ ] Double check your `schema.graphql` to make sure you're populating the entities exactly like the schema
+
   > The compiler won't catch if the entity you're building matches the schema, so double check for spelling and capitalization.
 
--testing for the graph out
--testing for the store (rust)
+## 👷 Testing your graph_out
 
-You need to get data from your store, but stores don't have outputs. So you'll need to use a get method. Stores have two-modes for when u want to get stuff
+- [ ] Test your graph_out module with `make gui` and remember to update the `MODULE` variable
 
-- [ ] figure out they need StoreGet and import it corresponding trait
-- [ ] transfers args
+- ✅ On the output tab navigate to block #12,287,507 and make it matches this:
+
+```
+
+{
+  "entityChanges": [
+    {
+      "entity": "transfer_volume",
+      "id": "890c3b095fb0da2f610f4a3276db0a34591550a2",
+      "ordinal": "0",
+      "operation": "CREATE",
+      "fields": [
+        {
+          "name": "symbol",
+          "newValue": {
+            "string": "ROCKYGATEWAYOPENEDITIONBYAAPROCKY"
+          }
+        },
+        {
+          "name": "volume",
+          "newValue": {
+            "bigint": "6"
+          }
+        },
+        {
+          "name": "address",
+          "newValue": {
+            "string": "890c3b095fb0da2f610f4a3276db0a34591550a2"
+          }
+        },
+        {
+          "name": "name",
+          "newValue": {
+            "string": "ROCKY GATEWAY Open Edition by A$AP Rocky"
+          }
+        }
+      ]
+    }
+  ]
+}
+
+```
+
+If it does, congradulations, you have built your first Substreams! 🎊
