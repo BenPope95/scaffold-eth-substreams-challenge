@@ -55,20 +55,20 @@ fn store_transfer_volume(transfers: Transfers, store: StoreAddInt64) {
 fn graph_out(
     transfers: Transfers,
     // change token_meta arg to something else
-    token_meta: StoreGetInt64,
+    volume: StoreGetInt64,
 ) -> Result<EntityChanges, substreams::errors::Error> {
     // Initialize changes container
     let mut tables = EntityChangesTables::new();
 
     // Loop over all the abis events to create changes
     transfers.transfers.into_iter().for_each(|transfer| {
-        if let Some(volume) = token_meta.get_at(0, &transfer.address) {
+        if let Some(value) = volume.get_at(0, &transfer.address) {
             tables
                 .create_row("transfer_volume", &transfer.address)
                 .set("name", transfer.name)
                 .set("symbol", transfer.symbol)
                 .set("address", transfer.address)
-                .set("volume", volume);
+                .set("volume", value);
         }
     });
 

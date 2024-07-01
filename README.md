@@ -332,15 +332,20 @@ Because stores don't have outputs you'll need to import a new store type to acce
 - [ ] Import the corresponding trait to use the store's methods
 - [ ] Pass in the store 🏪 as the first function argument
 - [ ] Pass in the second argument (look at your yaml)
-- [ ] Find
+- [ ] Iterate over the `transfers`
+- [ ] Get the volume from the store
 
-TODO: send docs.rs for tables and rows (sperate librrary)
-use the right methods they need to
+  > `EntityChanges` has been imported for you from the [substreams_entity_change](https://docs.rs/substreams-entity-change/latest/substreams_entity_change/index.html).rs library. You will need to use `tables` module to access:
+
+  > 1. `createRow()` on the `Tables` struct, to build the entity
+  > 2. `set()` on the `Row` struct, to set the entity's fields
+
+- [ ] Create a row on the table, and set the value of each field
+- [ ] Double check your `schema.graphql` to make sure you're populating the entities exactly like the schema
+  > The compiler won't catch if the entity you're building matches the schema, so double check for spelling and capitalization.
 
 -testing for the graph out
 -testing for the store (rust)
-
-findish it
 
 You need to get data from your store, but stores don't have outputs. So you'll need to use a get method. Stores have two-modes for when u want to get stuff
 
