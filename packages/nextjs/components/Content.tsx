@@ -12,17 +12,6 @@ const Content = () => {
       }
     }
   `;
-  // const query = gql`
-  //   {
-  //     transferVolumes(first: 10) {
-  //       id
-  //       name
-  //       symbol
-  //       address
-  //       volume
-  //     }
-  //   }
-  // `;
 
   const { loading, error, data } = useQuery(query);
 

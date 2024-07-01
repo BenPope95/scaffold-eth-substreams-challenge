@@ -11,9 +11,27 @@ Do you want to use substreams but don’t know Rust? You only need a subset of R
 🌊 Substreams are a powerful way to process blockchain data efficiently, allowing developers
 to stream, transform, and analyze large volumes of on-chain data in real time.
 
-For a basic introduction to Substreams, watch this [video](https://www.youtube.com/watch?v=fogh2D-vpzg&t=2122s)
+For a basic introduction to Substreams, we highly recommend watching this [video](https://www.youtube.com/watch?v=fogh2D-vpzg&t=2122s). The whole video is great but 14:10 to 35:00 will help you enourmously through this challege if you don't know anything about substreams yet.
 
 For a quicker, more applicable overview, watch [this](https://www.youtube.com/watch?v=vWYuOczDiAA&t=27s)
+
+For a quick read here's how substreams work:
+
+##### Modules
+
+Substreams are composed of WASM modules, which there are two types: map modules and store modules.
+
+- Map modules take inputs and have outputs, much a like **pure function**.
+- Store modules are key value pairs that let you aggregate values from maps.
+- Modules pass information to each other in the form of protobufs, but cannot modify each other's data. This allows two things:
+
+1. They can be run in parallel, making them very fast.
+2. They can be tested and debugged individually.
+
+##### Sinks
+
+Substreams are outputted into sinks.
+[Sinks](https://substreams.streamingfast.io/reference-and-specs/manifests#sink-type) are the service that consume the Substreams data, for our challenge we will be using a Subgraph as a sink.
 
 **Create a simple Substreams powered Subgraph:**
 
@@ -60,6 +78,8 @@ yarn install
 
 ```
 
+## Introduction to the Challenge
+
 🕺 Complete the challenge however you want, as long as your result looks the same as ours.
 
 🛩️ Follow our steps if you want a more guided experience.
@@ -70,13 +90,696 @@ yarn install
 
 🚧 It’s a challenge, not a tutorial. But the goal is that you’ll learn more from this challenge than any tutorial could teach.
 
+## ABI
+
+In order to generate Rust types related to specific contract events and functions, you need to provide an ABI in the `substreams_challenge > abi > contract.abi.json`.
+
+We have provided the Bored Ape Yatch Club ABI for you to paste in `contract.abi.json`.
+
+<details markdown='1'><summary>ABI</summary>
+
+```json
+[
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "name",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "symbol",
+        "type": "string"
+      },
+      {
+        "internalType": "uint256",
+        "name": "maxNftSupply",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "saleStart",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "constructor"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "owner",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "approved",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "tokenId",
+        "type": "uint256"
+      }
+    ],
+    "name": "Approval",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "owner",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "operator",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "bool",
+        "name": "approved",
+        "type": "bool"
+      }
+    ],
+    "name": "ApprovalForAll",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "previousOwner",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "newOwner",
+        "type": "address"
+      }
+    ],
+    "name": "OwnershipTransferred",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "from",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "to",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "tokenId",
+        "type": "uint256"
+      }
+    ],
+    "name": "Transfer",
+    "type": "event"
+  },
+  {
+    "inputs": [],
+    "name": "BAYC_PROVENANCE",
+    "outputs": [
+      {
+        "internalType": "string",
+        "name": "",
+        "type": "string"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "MAX_APES",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "REVEAL_TIMESTAMP",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "apePrice",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "to",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "tokenId",
+        "type": "uint256"
+      }
+    ],
+    "name": "approve",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "owner",
+        "type": "address"
+      }
+    ],
+    "name": "balanceOf",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "baseURI",
+    "outputs": [
+      {
+        "internalType": "string",
+        "name": "",
+        "type": "string"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "emergencySetStartingIndexBlock",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "flipSaleState",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "tokenId",
+        "type": "uint256"
+      }
+    ],
+    "name": "getApproved",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "owner",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "operator",
+        "type": "address"
+      }
+    ],
+    "name": "isApprovedForAll",
+    "outputs": [
+      { "internalType": "bool", "name": "", "type": "bool" }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "maxApePurchase",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "numberOfTokens",
+        "type": "uint256"
+      }
+    ],
+    "name": "mintApe",
+    "outputs": [],
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "name",
+    "outputs": [
+      {
+        "internalType": "string",
+        "name": "",
+        "type": "string"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "owner",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "tokenId",
+        "type": "uint256"
+      }
+    ],
+    "name": "ownerOf",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "renounceOwnership",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "reserveApes",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "from",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "to",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "tokenId",
+        "type": "uint256"
+      }
+    ],
+    "name": "safeTransferFrom",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "from",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "to",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "tokenId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "bytes",
+        "name": "_data",
+        "type": "bytes"
+      }
+    ],
+    "name": "safeTransferFrom",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "saleIsActive",
+    "outputs": [
+      { "internalType": "bool", "name": "", "type": "bool" }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "operator",
+        "type": "address"
+      },
+      {
+        "internalType": "bool",
+        "name": "approved",
+        "type": "bool"
+      }
+    ],
+    "name": "setApprovalForAll",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "baseURI",
+        "type": "string"
+      }
+    ],
+    "name": "setBaseURI",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "provenanceHash",
+        "type": "string"
+      }
+    ],
+    "name": "setProvenanceHash",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "revealTimeStamp",
+        "type": "uint256"
+      }
+    ],
+    "name": "setRevealTimestamp",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "setStartingIndex",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "startingIndex",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "startingIndexBlock",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bytes4",
+        "name": "interfaceId",
+        "type": "bytes4"
+      }
+    ],
+    "name": "supportsInterface",
+    "outputs": [
+      { "internalType": "bool", "name": "", "type": "bool" }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "symbol",
+    "outputs": [
+      {
+        "internalType": "string",
+        "name": "",
+        "type": "string"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "index",
+        "type": "uint256"
+      }
+    ],
+    "name": "tokenByIndex",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "owner",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "index",
+        "type": "uint256"
+      }
+    ],
+    "name": "tokenOfOwnerByIndex",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "tokenId",
+        "type": "uint256"
+      }
+    ],
+    "name": "tokenURI",
+    "outputs": [
+      {
+        "internalType": "string",
+        "name": "",
+        "type": "string"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "totalSupply",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "from",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "to",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "tokenId",
+        "type": "uint256"
+      }
+    ],
+    "name": "transferFrom",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "newOwner",
+        "type": "address"
+      }
+    ],
+    "name": "transferOwnership",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "withdraw",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  }
+]
+```
+
+</details>
+
+For our challenge you will only be using one event, however you have access to all the types generated by the ABI.
+
+## Makefile
+
+- [ ] Open your `Makefile` and take a look through the commands.
+
+> These are the commands you will use to build and test your substreams as you go.
+
+- [ ] After pasting the ABI in the `contract.abi.json`, run `make build`.
+
+> `make build` will generate your Rust types from the ABI.
+
 ---
 
 # 🌎 Checkpoint 1: map_events 🎇
 
-Your first module will be a map_module.
+Your first module will be a map module.
 
-[map_modules](https://substreams.streamingfast.io/documentation/develop/manifest-modules#map-modules) are how you will retrieve and filter your data.
+[map modules](https://substreams.streamingfast.io/documentation/develop/manifest-modules#map-modules) are how you will retrieve and filter your data.
 
 ## 1.1 Making a Protobuf 💪
 
@@ -104,32 +807,24 @@ repeated Transfer transfers = 1;
 
 ```
 
-In this challenge, your first map_module will return a protobuf called `Transfers`. 🚚 🚚 🚚
+In this challenge, your first map module will return a protobuf called `Transfers`. 🚚 🚚 🚚
 
 Your `Transfers` protobuf has a field that contains a vector of `Transfer` protobufs.
 
-🗃️ Substreams map_modules can only return a single protobuf in their output, so to return a vector of transfers in a block, we need to return a single protobuf that holds a list of transfers.
+🗃️ Substreams map modules can only return a single protobuf in their output, so to return a vector of transfers in a block, we need to return a single protobuf that holds a list of transfers.
 
 ## Generating the protobuf
 
 You’ll need to run a command to generate the protobufs after defining them.
 
-- [ ] Open your `Makefile` and take a look through the commands.
-
-> These are the commands you will use to build and test your substreams as you go.
-
-- [ ] Generate your protobufs by running:
-
-```sh
-make protogen
-```
+- [ ] 👐 Generate your protobufs by running: `make protogen`
 
 ## 🍠 1.2 Updating the Yaml
 
 In `substreams_challenge > substreams.yaml`, you’ll find the outline of the project structure.
-When adding new modules, you’ll need to specify its structure in the `substream.yaml`.
+🏙️ When adding new modules, you’ll need to specify its structure in the `substream.yaml`.
 
-The map_module has mostly been filled out.
+The map module has mostly been filled out.
 
 - [ ] For the name field, put `map_events`
 - [ ] For the kind field put `map`.
@@ -137,13 +832,13 @@ The map_module has mostly been filled out.
 - Your first module will take in block, so the `inputs` field needs `- source: sf.ethereum.type.v2.Block`.
   > Your first module can additionally take in `params` or `clock`, but it will always take in `block`.
 
-Downstream, your map_module’s `input` field can take in any of the following [inputs](https://substreams.streamingfast.io/documentation/develop/manifest-modules/inputs#inputs-overview).
+⤵️ Downstream, your map module’s `input` field can take in any of the following [inputs](https://substreams.streamingfast.io/documentation/develop/manifest-modules/inputs#inputs-overview).
 
-It is best practice to only take in `sf.ethereum.type.v2.Block` in your first module so you’re only iterating over the block in one module.
+🏆 It is best practice to only take in `sf.ethereum.type.v2.Block` in your first module so you’re only iterating over the block in one module.
 
 - The `output:` is `type: proto:contract.v1.Transfers` which is the `Transfers` protobuf.
 
-## 1.3 🏗️ Building the map_module
+## 1.3 🏗️ Building the Map Module
 
 - [ ] Go to `substreams_challenge > src > lib.rs`.
 
@@ -153,7 +848,7 @@ It is best practice to only take in `sf.ethereum.type.v2.Block` in your first mo
 
 - Your `map_events` module takes in `blk: eth::Block` (block).
 - The module returns: `Result<Transfers, substreams::errors::Error>`.
-  > Most of the time you will see map_modules return [Result Types](https://doc.rust-lang.org/rust-by-example/error/result.html). They can also return Option Types or the protobuf directly.
+  > Most of the time you will see map modules return [Result Types](https://doc.rust-lang.org/rust-by-example/error/result.html). They can also return Option Types or the protobuf directly.
 - `token_meta` is a helper that makes RPC calls to fetch token `name` and `symbol`.
   > Take a look at rpc.rs if you’re curious about how RPC calls work.
 - The `Transfer` protobuf is instantiated for you with `name` and `symbol` populated from `token_meta`. In the `address` field `Hex::Encode()` is provided to conveinently convert the address (most likely a `Vec<u8>`) to a hexadecimal string.
@@ -162,7 +857,7 @@ It is best practice to only take in `sf.ethereum.type.v2.Block` in your first mo
 
 ## 🥅 Goal of the module
 
-The module should search the block for all ERC721 transfer events, 🎇 populate the `Transfer` protobuf with the event address, and populate 👫 the `Transfers` protobuf with a vector of `Transfer` protobufs.
+The module should search the block for all ERC721 transfer events, populate the `Transfer` protobuf with the event address, and populate 👫 the `Transfers` protobuf with a vector of `Transfer` protobufs.
 
 ## 🎖️ Your Goals
 
@@ -180,7 +875,7 @@ The module should search the block for all ERC721 transfer events, 🎇 populate
 
 - [ ] TODO 4: Assign the `transfers` field 🧑‍🌾 on the `Transfers` protobuf the vector of `transfer` protobufs.
 
-## 👷 Testing your map_module
+## 🧪 Testing your map module
 
 - [ ] Go back to your Makefile
 
@@ -188,15 +883,15 @@ The module should search the block for all ERC721 transfer events, 🎇 populate
 
 In the terminal running the following commands will do:
 
-- `make run` will run your module and display the output in the terminal block by block
+🏃 `make run` will run your module and display the output in the terminal block by block
 
-- `make gui` will run your substreams and allow you to jump to the outputs of specific blocks
+🍱 `make gui` will run your substreams and allow you to jump to the outputs of specific blocks
 
 🚧 For `make run` and `gui`, the `START_BLOCK` needs to be the same as in the `substreams.yaml`
 
-> The STOP_BLOCK will be how many blocks you run
+> The STOP_BLOCK 🚫 will be how many blocks you run
 
-🚧 Your API key has a certain limit, so don’t test on too large of a block range!
+🚧 Your API key has a certain limit 🤯 so don’t test on too large of a block range!
 
 - [ ] Run `make gui` and use TAB to navigate to the Output tab
 
@@ -228,51 +923,46 @@ In the terminal running the following commands will do:
 
 ```
 
-If it does, you’ve completed the map_module correctly, congratulations! 🎊
+🎊 If it does, you’ve completed the map module correctly, congratulations! 🎊
 
-🕐 Now it’s time to aggregate the `Transfers` with a store_module!
+🕰️ Now it’s time to aggregate the `Transfers` with a store_module!
 
 ---
 
 # Checkpoint 2: 🏪 store_transfer_volume 🔊
 
 The next module you’ll be building is a store_module.
-[store_modules](https://substreams.streamingfast.io/documentation/develop/manifest-modules#store-modules) are used to aggregate and store values through the use of key value pairs.
+[store_modules](https://substreams.streamingfast.io/documentation/develop/manifest-modules#store-modules) are used to aggregate and store values through the use of key value pairs. 🗝️
 
 ## 🍠 2.1 Updating the yaml (again)
 
-- [ ] Go back to the substreams.yaml
+- [ ] Go back to the substreams.yaml 🔙
 
 This time we only filled out the `initialBlock`. 📥
 
 - [ ] Fill out the `name` with `store_transfer_volume`
-
 - [ ] Fill out the `kind` with `store`
-
-- [ ] 👀 Look at the [updatePolicy](https://substreams.streamingfast.io/documentation/develop/manifest-modules/types#updatepolicy-property) property
-
+- [ ] Look at the [updatePolicy](https://substreams.streamingfast.io/documentation/develop/manifest-modules/types#updatepolicy-property) 👀 property
   > These are the available options for `updatePolicy`
-
-- [ ] 👀 Look at the [valueType](https://substreams.streamingfast.io/documentation/develop/manifest-modules/types#valuetype-property) property
-
+- [ ] Look at the [valueType](https://substreams.streamingfast.io/documentation/develop/manifest-modules/types#valuetype-property) 👀 property
   > These are the available options for `valueType`
-
-- [ ] 👀 Look at the [stores](https://docs.rs/substreams/latest/substreams/store/index.html#structs) in the substreams docs.
+- [ ] Look at the [stores](https://docs.rs/substreams/latest/substreams/store/index.html#structs) 👀 in the substreams docs.
 
   🚧 Notice: Most of the stores are a combination of an `updatePolicy` and a `valueType`.
 
   You will be using `StoreAddInt64`.
 
-> NOTE: the [substreams](https://docs.rs/substreams/latest/substreams/index.html).rs library is a different library than the [substreams-ethereum](https://docs.rs/substreams-ethereum/latest/substreams_ethereum/index.html).rs library that you used for the map_modules.
+> NOTE: the [substreams](https://docs.rs/substreams/latest/substreams/index.html).rs library is a different library than the [substreams-ethereum](https://docs.rs/substreams-ethereum/latest/substreams_ethereum/index.html).rs library that you used for the map modules.
 
 - [ ] ✏️ Now fill out `updatePolicy` and `valueType` appropriately
 
-> 🔄 store_modules take in the same inputs as map_modules.
-> 🚫 Unlike map_modules, store_modules do not have outputs.
+> 🔄 store_modules take in the same inputs as map modules.
 
-- [ ] Under `inputs` fill in the `-map` field with the name of our map_module
+> 🚫 Unlike map modules, store modules do not have outputs.
 
-## 🏪 2.2 Building the store_module
+- [ ] Under `inputs` fill in the `-map` field with the name of our map module
+
+## 🏪 2.2 Building the Store Module
 
 - [ ] Go to `substreams_challenge > src > lib.rs`.
 
@@ -289,14 +979,14 @@ The module should iterate over the `Transfers` and increment the store value by 
 ### 🎖️ Your Goals
 
 - [ ] Pass in the appropriate store type as the second argument
-- [ ] Iterate over transfers
-- [ ] Look at the available methods on Docs.rs for your store under the Trait Implementation section
+- [ ] ♻️ Iterate over transfers
+- [ ] Look at the available methods on Docs.rs 👀 for your store under the Trait Implementation section
 - [ ] Use the `.add()` method on the store you passed in
   > The first argument for `.add()` is ord ([ordinal](https://substreams.streamingfast.io/documentation/develop/manifest-modules/writing-module-handlers#ordinal)), we won’t be using ordinals so put 0 for that argument.
 
 🚧 You cannot use `make run` or `make gui` to test your store_module because they don’t have outputs
 
-But we have provided a map_module for the purpose of testing your store_module.
+<!-- But we have provided a map module for the purpose of testing your store_module. -->
 
 ---
 
@@ -304,7 +994,7 @@ But we have provided a map_module for the purpose of testing your store_module.
 
 [graph_out](https://substreams.streamingfast.io/documentation/consume/subgraph) builds `EntityChanges` that will be outputted into your subgraph.
 
-🚧 Notice the handler above `graph_out`, indicates that graph_out is a map_module.
+🚧 Notice the handler above `graph_out`, indicates that graph_out is a map module.
 
 ## 🍠 3.1 Updating the yaml (again)
 
@@ -312,9 +1002,9 @@ But we have provided a map_module for the purpose of testing your store_module.
 
 ### schema.graphql
 
-Your subgraph needs a to define the entities you'll be querying.
+📘 Your subgraph needs a schema to define the entities you'll be querying.
 
-Read more about how to make your own [schema](https://graphql.org/learn/schema/) here.
+🤓 Read more about how to make your own [schema](https://graphql.org/learn/schema/) here.
 
 We’ve provided the following for you:
 
@@ -361,7 +1051,7 @@ Because stores don’t have outputs, you’ll need to import a new store type to
 
   > The compiler won’t catch if the entity you’re building matches the schema, so double-check for spelling and capitalization.
 
-## 👷 Testing your graph_out
+## 🧪 Testing your graph_out
 
 - [ ] Test your graph_out module with `make gui` and remember to update the `MODULE` variable
 
@@ -408,12 +1098,86 @@ Because stores don’t have outputs, you’ll need to import a new store type to
 
 ```
 
-If it does, congratulations, you have built your first Substreams! 🎊
+If it does,
+
+🎊 congratulations you have built your first Substreams! 🎊
+
+# Checkpoint 4: 🤖 Deploying the Subgraph
+
+1. Run `make pack` to make your substreams package (.spkg)
+
+2. Go to [subgraph studio](https://thegraph.com/studio/)
+
+3. Connect your wallet
+
+4. Click "Create a Subgraph" on the right and give it a name
+
+5. On the right hand side under the "AUTH & DEPLOY", copy the command under "authenticate in CLI". Run this command in your terminal.
+
+6. Then copy and run the command under "deploy subgraph" and follow the instructions in the terminal
+
+7. Once that's done the subgraph should be deployed. If you go back to the subgraph page on the studio, the subgraph should be syncing.
+
+While we let the subgraph sync, we'll get started on the front end.
+
+# Checkpoint 5: Hooking the frontend up to the subgraph
+
+We are using [Apollo Client](https://www.apollographql.com/docs/react/) to make things easier.
+
+1. Go to `packages > nextjs > app > page.tsx`
+
+2. Paste the following in the Home function:
+
+```ts
+const client = new ApolloClient({
+  uri: "",
+  cache: new InMemoryCache(),
+});
+```
+
+3. Go back to your subgraph in the studio.
+
+4. In the "details" tab, under "development query URL - latest version", copy the link.
+
+5. Paste this link in the empty quotes for the uri field in the `client` variable.
+
+6. Wrap the returned HTML in:
+
+```ts
+<ApolloProvider client={client}></ApolloProvider>
+```
+
+7. Now go to the `Content.tsx` file under `nextjs > components > Content.tsx`
+
+8. Before the `return statement` paste in the following:
+
+```ts
+const { loading, error, data } = useQuery();
+
+if (loading) return <p>Loading...</p>;
+if (error) return <p>Error: {error.message}</p>;
+```
+
+9. The `Table` component accepts a prop of `data`, so pass in the `data` returned from `useQuery()` into the `<Table data={} />`
+
+10. Now let's give you a query to pass into `useQuery()`:
+
+```ts
+const query = gql`
+  {
+    transferVolumes(orderBy: volume, orderDirection: desc) {
+      name
+      symbol
+      address
+      volume
+    }
+  }
+`;
+```
 
 Notes for authors:
 
 - make them paste in abi
 -
-- make a test map_module for the store_module
+- make a test map module for the store_module
 - add a new checkpoint for deploying their subgraph
-- make the use Apollo Client and querying
