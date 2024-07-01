@@ -1,27 +1,27 @@
 # Substreams Challenge
 
-📚 This challenge is meant for developers with a basic understanding Rust 🦀 and Web3.
+📚 This challenge is meant for developers with a basic understanding of Rust 🦀 and Web3.
 
-Do you want to use substreams but don't know Rust? You only need a subset of Rust!
+Do you want to use substreams but don’t know Rust? You only need a subset of Rust!
 
-- [The Book](https://doc.rust-lang.org/book/index.html)
-  Just read and understand chapters 1-9, maybe 10, plus chapters 13 and 18.
-- [Rustlings](https://rustlings.cool/) is great to apply what you've learned!
+- Just read [The Book](https://doc.rust-lang.org/book/index.html)
+  and understand chapters 1-9, maybe 10, plus chapters 13 and 18.
+- [Rustlings](https://rustlings.cool/) is a great way to apply your knowledge!
 
 🌊 Substreams are a powerful way to process blockchain data efficiently, allowing developers
-to stream, transform, and analyze large volumes of on-chain data in real-time.
+to stream, transform, and analyze large volumes of on-chain data in real time.
 
 For a basic introduction to Substreams, watch this [video](https://www.youtube.com/watch?v=fogh2D-vpzg&t=2122s)
 
-For a quicker, more applicable overview watch [this](https://www.youtube.com/watch?v=vWYuOczDiAA&t=27s)
+For a quicker, more applicable overview, watch [this](https://www.youtube.com/watch?v=vWYuOczDiAA&t=27s)
 
 **Create a simple Substreams powered Subgraph:**
 
-1️⃣ You'll be using a template Substreams to filter through blockchain data and indexing the transfer volume of NFT collections.
+1️⃣ You’ll be using a template Substreams to filter through blockchain data and indexing the transfer volume of NFT collections.
 
-2️⃣ Then you'll be outputting the target data into a subgraph.
+2️⃣ Then you’ll be outputting the target data into a subgraph.
 
-3️⃣ Finally you'll query the subgraph in a template frontend to display the data with swag. 😎
+3️⃣ Finally, you’ll query the subgraph in a template frontend to display the data with swag. 😎
 
 ---
 
@@ -39,23 +39,26 @@ Before you begin, you need to install the following tools:
 
 - [Rust, Buf, and Substreams CLI](https://substreams.streamingfast.io/documentation/consume/installing-the-cli#dependency-installation)
 - [Authentication and API key](https://substreams.streamingfast.io/documentation/consume/installing-the-cli#dependency-installation)
-  We recommend using the "All-in-one bash function" to make life easier 🤙
+  We recommend using the “All-in-one bash function” to make life easier 🤙
 
-  > You'll need to install Scaffold-ETH with
+  > You’ll need to install Scaffold-ETH with
 
-  ```sh
+  “`sh
   yarn install
+
+  ```
+
   ```
 
 🕺 Complete the challenge however you want, as long as your result looks the same as ours.
 
 🛩️ Follow our steps if you want a more guided experience.
 
-🎣 Our goal (as authors) is not to give you fish, but to teach you to fish.
+🎣 Our goal (as authors) is not to give you fish but to teach you to fish.
 
-🧠 The challenge will require you to think, problem solve, and try different things.
+🧠 The challenge will require thinking, problem-solving, and trying different things.
 
-🚧 It's a challenge, not a tutorial. But the goal is that you'll learn more from this challenge than any tutorial could teach.
+🚧 It’s a challenge, not a tutorial. But the goal is that you’ll learn more from this challenge than any tutorial could teach.
 
 ---
 
@@ -65,16 +68,14 @@ Your first module will be a map_module.
 
 [map_modules](https://substreams.streamingfast.io/documentation/develop/manifest-modules#map-modules) are how you will retrieve and filter your data.
 
-When adding new modules, therses
-
 ## 1.1 Making a Protobuf 💪
 
 - Protobufs are a language-agnostic way to serialize structured data.
-- Substreams use protobufs to carry data through their modules, so we need to define our protobufs in accordance to the data we want.
+  Substreams use protobufs to carry data through their modules, so we need to define our protobufs according to the data we want.
 - [Protobufs](https://substreams.streamingfast.io/documentation/develop/creating-protobuf-schemas#protobuf-definition-for-substreams) from the Streamingfast docs.
 - In `substreams > proto > contract.proto`, make sure your file looks like this:
 
-```proto
+“`proto
 syntax = "proto3";
 
 import "google/protobuf/timestamp.proto";
@@ -90,19 +91,20 @@ string symbol = 3;
 message Transfers {
 repeated Transfer transfers = 1;
 }
+
 ```
 
-In this challenge your first map_module will return a protobuf called `Transfers`. 🚚 🚚 🚚
+In this challenge, your first map_module will return a protobuf called `Transfers`. 🚚 🚚 🚚
 
 Your `Transfers` protobuf is a vector of `Transfer` protobufs.
 
 🍪 When returning a protobuf, you always need to return a single `Protobuf` that contains a vector of `Protobufs`.
 
-🗃️ Because substreams index entire blocks at a time before moving to the next block, you need to be able to return multiple protobufs.
+🗃️ Because substreams index entire blocks at a time before moving to the next block, you must be able to return multiple protobufs.
 
 ## Generating the protobuf
 
-You'll need to run a command to generate the protobufs after defining them.
+You’ll need to run a command to generate the protobufs after defining them.
 
 - [ ] Open your `Makefile`
 
@@ -110,26 +112,26 @@ You'll need to run a command to generate the protobufs after defining them.
 
 - [ ] Generate your protobufs by running:
 
-```sh
+“`sh
 make protogen
 ```
 
 ## 🍠 1.2 Updating the Yaml
 
-In `substreams_challenge > substreams.yaml`, you'll find the outline of the project structure.
-When adding new modules, you'll need to specify its structure in the `substream.yaml`.
+In `substreams_challenge > substreams.yaml`, you’ll find the outline of the project structure.
+When adding new modules, you’ll need to specify its structure in the `substream.yaml`.
 
 The map_module has mostly been filled out.
 
-- [ ] For the name field put `map_events`
+- [ ] For the name field, put `map_events`
 - [ ] For the kind field put `map`.
 
-- Your first module will take in `block`s, so the `inputs` field needs `- source: sf.ethereum.type.v2.Block`.
+- Your first module will take in `block’s, so the `inputs`field needs`- source: sf.ethereum.type.v2.Block`.
   > Your first module can additionally take in `params` or `clock`, but it will always take in `block`.
 
-Downstream, your map_module's `input` field can take in any of the following [inputs](https://substreams.streamingfast.io/documentation/develop/manifest-modules/inputs#inputs-overview).
+Downstream, your map_module’s `input` field can take in any of the following [inputs](https://substreams.streamingfast.io/documentation/develop/manifest-modules/inputs#inputs-overview).
 
-It is best practice to only take in `sf.ethereum.type.v2.Block` in your first module so you're only iterating over the block in one module.
+It is best practice to only take in `sf.ethereum.type.v2.Block` in your first module so you’re only iterating over the block in one module.
 
 - The `output:` is `type: proto:contract.v1.Transfers` which is the `Transfers` protobuf.
 
@@ -145,7 +147,7 @@ It is best practice to only take in `sf.ethereum.type.v2.Block` in your first mo
 - The module returns: `Result<Transfers, substreams::errors::Error>`.
   > map_modules always return [Result Types](https://doc.rust-lang.org/rust-by-example/error/result.html).
 - `token_meta` is a helper that makes RPC calls to fetch token `name` and `symbol`.
-  > Take a look at rpc.rs if you're curious about how RPC calls work.
+  > Take a look at rpc.rs if you’re curious about how RPC calls work.
 - The `Transfer` protobuf is instantiated for you with `name` and `symbol` populated from `token_meta`. In the `address` field `Hex::Encode()` is provided to conveinently convert the address (most likely a `Vec<u8>`) to a hexadecimal string.
 - The `Transfers` protobuf (what the module returns) has also been instantiated.
 - At the top of file we have imported the `TransferEvent` type for you to use.
@@ -158,7 +160,7 @@ The module should search the block for all ERC721 transfer events, 🎇 populate
 
 - [ ] Look at the [available methods](https://docs.rs/substreams-ethereum/latest/substreams_ethereum/pb/eth/v2/struct.Block.html#implementations) on the Block Struct
 
-  > `transactions()`, `reciepts()`, `logs()`, `calls()`, and `events()`, these will allow you to iterate over the block's data.
+  > `transactions()`, `reciepts()`, `logs()`, `calls()`, and `events()`, these will allow you to iterate over the block’s data.
 
 - [ ] Look at the [Event Trait](https://docs.rs/substreams-ethereum/latest/substreams_ethereum/trait.Event.html) for helpful methods to deal with events.
 
@@ -186,45 +188,45 @@ In the terminal running the following commands will do:
 
 > The STOP_BLOCK will be how many blocks you run
 
-🚧 Your API key has a certain limit, so don't test on too large of a block range!
+🚧 Your API key has a certain limit, so don’t test on too large of a block range!
 
 - [ ] Run `make gui` and use TAB to navigate to the Output tab
 
-> You can view the output of each block by using "o" and "p" to scroll left and right accross blocks
+> You can view the output of each block by using “o” and “p” to scroll left and right across blocks
 
 - ✅ Check that block #12,287,507 looks like this:
 
 ```
 {
-  "transfers": [
+  “transfers”: [
     {
-      "address": "890c3b095fb0da2f610f4a3276db0a34591550a2",
-      "name": "ROCKY GATEWAY Open Edition by A$AP Rocky",
-      "symbol": "ROCKYGATEWAYOPENEDITIONBYAAPROCKY"
+      “address”: “890c3b095fb0da2f610f4a3276db0a34591550a2”,
+      “name”: “ROCKY GATEWAY Open Edition by A$AP Rocky”,
+      “symbol”: “ROCKYGATEWAYOPENEDITIONBYAAPROCKY”
     },
     {
-      "address": "50b8740d6a5cd985e2b8119ca28b481afa8351d9",
-      "name": "RTFKT",
-      "symbol": "RTFKT"
+      “address”: “50b8740d6a5cd985e2b8119ca28b481afa8351d9”,
+      “name”: “RTFKT”,
+      “symbol”: “RTFKT”
     },
     {
-      "address": "a7d8d9ef8d8ce8992df33d8b8cf4aebabd5bd270",
-      "name": "Art Blocks",
-      "symbol": "BLOCKS"
+      “address”: “a7d8d9ef8d8ce8992df33d8b8cf4aebabd5bd270”,
+      “name”: “Art Blocks”,
+      “symbol”: “BLOCKS”
     }
   ]
 }
 ```
 
-If it does, you've completed the map_module correctly, congratulations! 🎊
+If it does, you’ve completed the map_module correctly, congratulations! 🎊
 
-🕐 Now its time to aggregate the `Transfers` with a store_module!
+🕐 Now it’s time to aggregate the `Transfers` with a store_module!
 
 ---
 
 # Checkpoint 2: 🏪 store_transfer_volume 🔊
 
-The next module you'll be builidng is a store_module.
+The next module you’ll be building is a store_module.
 [store_modules](https://substreams.streamingfast.io/documentation/develop/manifest-modules#store-modules) are used to aggregate and store values through the use of key value pairs.
 
 ## 🍠 2.1 Updating the yaml (again)
@@ -272,17 +274,17 @@ This time we only filled out the `initialBlock`. 📥
 
 ### 🥅 The Goal of the module
 
-The module should iterate over the `Transfers` and for each unique address increment the store value by 1.
+The module should iterate over the `Transfers` and increment the store value by 1 for each unique address.
 
 ### 🎖️ Your Goals
 
-- [ ] Pass in the appropiate store type as the second argument
+- [ ] Pass in the appropriate store type as the second argument
 - [ ] Iterate over transfers
 - [ ] Look at the available methods on Docs.rs for your store under the Trait Implementation section
 - [ ] Use the `.add()` method on the store you passed in
-  > The first argument for `.add()` is ord ([ordinal](https://substreams.streamingfast.io/documentation/develop/manifest-modules/writing-module-handlers#ordinal)), we won't be using ordinals so put 0 for that argument.
+  > The first argument for `.add()` is ord ([ordinal](https://substreams.streamingfast.io/documentation/develop/manifest-modules/writing-module-handlers#ordinal)), we won’t be using ordinals so put 0 for that argument.
 
-🚧 You cannot use `make run` or `make gui` to test your store_module because they don't have outputs
+🚧 You cannot use `make run` or `make gui` to test your store_module because they don’t have outputs
 
 But we have provided a map_module for the purpose of testing your store_module.
 
@@ -302,7 +304,7 @@ But we have provided a map_module for the purpose of testing your store_module.
 
 > Your subgraph needs a [schema](https://thegraph.com/docs/en/developing/unit-testing-framework/#example-schemagraphql) to define the entities you'll be querying.
 
-We've provided the following for you:
+We’ve provided the following for you:
 
 ```graphql
 type transfer_volume @entity {
@@ -314,9 +316,9 @@ type transfer_volume @entity {
 }
 ```
 
-### 🥅 Goal of the module
+### 🥅 goal of the module
 
-It should iterate ♻️ over the `Transfers` and for each `Transfer` it should retrieve 🏃 the `volume` from the store, then build the `transfer_volume` entity. 👽
+It should iterate ♻️ over the `Transfers`, and for each `Transfer`, it should retrieve 🏃 the `volume` from the store, then build the `transfer_volume` entity. 👽
 
 ### 🖊️ What is filled out:
 
@@ -326,12 +328,12 @@ It should iterate ♻️ over the `Transfers` and for each `Transfer` it should 
 
 ### 🎖️ Your Goals
 
-Because stores don't have outputs you'll need to import a new store type to access the storage values. 🏘️
+Because stores don’t have outputs, you’ll need to import a new store type to access the storage values. 🏘️
 
-[Stores](https://substreams.streamingfast.io/documentation/develop/manifest-modules/types#store-modes) have two modes for retrieving data. You will be using "get mode" for this module.
+[Stores](https://substreams.streamingfast.io/documentation/develop/manifest-modules/types#store-modes) have two modes for retrieving data. You will be using “get mode” for this module.
 
 - [ ] Look at the library 📚 and import the appropriate store type
-- [ ] Import the corresponding trait to use the store's methods
+- [ ] Import the corresponding trait to use the store’s methods
 - [ ] Pass in the store 🏪 as the first function argument
 - [ ] Pass in the second argument (look at your yaml)
 - [ ] Iterate over the `transfers`
@@ -339,13 +341,13 @@ Because stores don't have outputs you'll need to import a new store type to acce
 
   > `EntityChanges` has been imported for you from the [substreams_entity_change](https://docs.rs/substreams-entity-change/latest/substreams_entity_change/index.html).rs library. You will need to use `tables` module to access:
 
-  > 1. `createRow()` on the `Tables` struct, to build the entity
-  > 2. `set()` on the `Row` struct, to set the entity's fields
+  > 1. `createRow()` on the `Tables` struct to build the entity
+  > 2. `set()` on the `Row` struct to set the entity’s fields
 
-- [ ] Create a row on the table, and set the value of each field
-- [ ] Double check your `schema.graphql` to make sure you're populating the entities exactly like the schema
+- [ ] Create a row on the table and set the value of each field
+- [ ] Double check your `schema.graphql` to make sure you’re populating the entities exactly like the schema
 
-  > The compiler won't catch if the entity you're building matches the schema, so double check for spelling and capitalization.
+  > The compiler won’t catch if the entity you’re building matches the schema, so double-check for spelling and capitalization.
 
 ## 👷 Testing your graph_out
 
@@ -356,35 +358,35 @@ Because stores don't have outputs you'll need to import a new store type to acce
 ```
 
 {
-  "entityChanges": [
+  “entityChanges”: [
     {
-      "entity": "transfer_volume",
-      "id": "890c3b095fb0da2f610f4a3276db0a34591550a2",
-      "ordinal": "0",
-      "operation": "CREATE",
-      "fields": [
+      “entity”: “transfer_volume”,
+      “id”: “890c3b095fb0da2f610f4a3276db0a34591550a2”,
+      “ordinal”: “0”,
+      “operation”: “CREATE”,
+      “fields”: [
         {
-          "name": "symbol",
-          "newValue": {
-            "string": "ROCKYGATEWAYOPENEDITIONBYAAPROCKY"
+          “name”: “symbol”,
+          “newValue”: {
+            “string”: “ROCKYGATEWAYOPENEDITIONBYAAPROCKY”
           }
         },
         {
-          "name": "volume",
-          "newValue": {
-            "bigint": "6"
+          “name”: “volume”,
+          “newValue”: {
+            “bigint”: “6”
           }
         },
         {
-          "name": "address",
-          "newValue": {
+          “name”: “address”,
+          “newValue”: {
             "string": "890c3b095fb0da2f610f4a3276db0a34591550a2"
           }
         },
         {
-          "name": "name",
-          "newValue": {
-            "string": "ROCKY GATEWAY Open Edition by A$AP Rocky"
+          “name”: “name”,
+          “newValue”: {
+            “string”: “ROCKY GATEWAY Open Edition by A$AP Rocky”
           }
         }
       ]
@@ -394,4 +396,10 @@ Because stores don't have outputs you'll need to import a new store type to acce
 
 ```
 
-If it does, congradulations, you have built your first Substreams! 🎊
+If it does, congratulations, you have built your first Substreams! 🎊
+
+Notes for authors:
+
+- make a test map_module for the store_module
+- add a new checkpoint for deploying their subgraph
+- make the use Apollo Client and querying
