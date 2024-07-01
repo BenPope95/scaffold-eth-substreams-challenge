@@ -39,16 +39,26 @@ Before you begin, you need to install the following tools:
 
 - [Rust, Buf, and Substreams CLI](https://substreams.streamingfast.io/documentation/consume/installing-the-cli#dependency-installation)
 - [Authentication and API key](https://substreams.streamingfast.io/documentation/consume/installing-the-cli#dependency-installation)
-  We recommend using the “All-in-one bash function” to make life easier 🤙
 
-  > You’ll need to install Scaffold-ETH with
+> To set your API key more easily:
 
-  “`sh
-  yarn install
+```sh
+export STREAMINGFAST_KEY=server_YOUR_KEY_HERE
+function sftoken {
+export SUBSTREAMS_API_TOKEN=$(curl https://auth.streamingfast.io/v1/auth/issue -s --data-binary '{"api_key":"'$STREAMINGFAST_KEY'"}' | jq -r .token)
+echo "Token set on in SUBSTREAMS_API_TOKEN"
+}
+```
 
-  ```
+Then you can obtain your key with `sftoken`, it will make life easier 🤙
 
-  ```
+> You’ll need to install Scaffold-ETH with
+
+```sh
+
+yarn install
+
+```
 
 🕺 Complete the challenge however you want, as long as your result looks the same as ours.
 
@@ -71,11 +81,11 @@ Your first module will be a map_module.
 ## 1.1 Making a Protobuf 💪
 
 - Protobufs are a language-agnostic way to serialize structured data.
-  Substreams use protobufs to carry data through their modules, so we need to define our protobufs according to the data we want.
+- Substreams use protobufs to carry data through their modules, so we need to define our protobufs according to the data we want.
 - [Protobufs](https://substreams.streamingfast.io/documentation/develop/creating-protobuf-schemas#protobuf-definition-for-substreams) from the Streamingfast docs.
 - In `substreams > proto > contract.proto`, make sure your file looks like this:
 
-“`proto
+```proto
 syntax = "proto3";
 
 import "google/protobuf/timestamp.proto";
@@ -96,23 +106,21 @@ repeated Transfer transfers = 1;
 
 In this challenge, your first map_module will return a protobuf called `Transfers`. 🚚 🚚 🚚
 
-Your `Transfers` protobuf is a vector of `Transfer` protobufs.
+Your `Transfers` protobuf has a field that contains a vector of `Transfer` protobufs.
 
-🍪 When returning a protobuf, you always need to return a single `Protobuf` that contains a vector of `Protobufs`.
-
-🗃️ Because substreams index entire blocks at a time before moving to the next block, you must be able to return multiple protobufs.
+🗃️ Substreams map_modules can only return a single protobuf in their output, so to return a vector of transfers in a block, we need to return a single protobuf that holds a list of transfers.
 
 ## Generating the protobuf
 
 You’ll need to run a command to generate the protobufs after defining them.
 
-- [ ] Open your `Makefile`
+- [ ] Open your `Makefile` and take a look through the commands.
 
-> This contains commands you will use to build and test your substreams as you go.
+> These are the commands you will use to build and test your substreams as you go.
 
 - [ ] Generate your protobufs by running:
 
-“`sh
+```sh
 make protogen
 ```
 
@@ -126,7 +134,7 @@ The map_module has mostly been filled out.
 - [ ] For the name field, put `map_events`
 - [ ] For the kind field put `map`.
 
-- Your first module will take in `block’s, so the `inputs`field needs`- source: sf.ethereum.type.v2.Block`.
+- Your first module will take in block, so the `inputs` field needs `- source: sf.ethereum.type.v2.Block`.
   > Your first module can additionally take in `params` or `clock`, but it will always take in `block`.
 
 Downstream, your map_module’s `input` field can take in any of the following [inputs](https://substreams.streamingfast.io/documentation/develop/manifest-modules/inputs#inputs-overview).
@@ -143,9 +151,9 @@ It is best practice to only take in `sf.ethereum.type.v2.Block` in your first mo
 
 ### 🖊️ What is filled out:
 
-- Your `map_events` module takes in `blk: eth::Block` (blocks).
+- Your `map_events` module takes in `blk: eth::Block` (block).
 - The module returns: `Result<Transfers, substreams::errors::Error>`.
-  > map_modules always return [Result Types](https://doc.rust-lang.org/rust-by-example/error/result.html).
+  > Most of the time you will see map_modules return [Result Types](https://doc.rust-lang.org/rust-by-example/error/result.html). They can also return Option Types or the protobuf directly.
 - `token_meta` is a helper that makes RPC calls to fetch token `name` and `symbol`.
   > Take a look at rpc.rs if you’re curious about how RPC calls work.
 - The `Transfer` protobuf is instantiated for you with `name` and `symbol` populated from `token_meta`. In the `address` field `Hex::Encode()` is provided to conveinently convert the address (most likely a `Vec<u8>`) to a hexadecimal string.
@@ -197,25 +205,27 @@ In the terminal running the following commands will do:
 - ✅ Check that block #12,287,507 looks like this:
 
 ```
+
 {
-  “transfers”: [
-    {
-      “address”: “890c3b095fb0da2f610f4a3276db0a34591550a2”,
-      “name”: “ROCKY GATEWAY Open Edition by A$AP Rocky”,
-      “symbol”: “ROCKYGATEWAYOPENEDITIONBYAAPROCKY”
-    },
-    {
-      “address”: “50b8740d6a5cd985e2b8119ca28b481afa8351d9”,
-      “name”: “RTFKT”,
-      “symbol”: “RTFKT”
-    },
-    {
-      “address”: “a7d8d9ef8d8ce8992df33d8b8cf4aebabd5bd270”,
-      “name”: “Art Blocks”,
-      “symbol”: “BLOCKS”
-    }
-  ]
+“transfers”: [
+{
+“address”: “890c3b095fb0da2f610f4a3276db0a34591550a2”,
+“name”: “ROCKY GATEWAY Open Edition by A$AP Rocky”,
+“symbol”: “ROCKYGATEWAYOPENEDITIONBYAAPROCKY”
+},
+{
+“address”: “50b8740d6a5cd985e2b8119ca28b481afa8351d9”,
+“name”: “RTFKT”,
+“symbol”: “RTFKT”
+},
+{
+“address”: “a7d8d9ef8d8ce8992df33d8b8cf4aebabd5bd270”,
+“name”: “Art Blocks”,
+“symbol”: “BLOCKS”
 }
+]
+}
+
 ```
 
 If it does, you’ve completed the map_module correctly, congratulations! 🎊
@@ -302,7 +312,9 @@ But we have provided a map_module for the purpose of testing your store_module.
 
 ### schema.graphql
 
-> Your subgraph needs a [schema](https://thegraph.com/docs/en/developing/unit-testing-framework/#example-schemagraphql) to define the entities you'll be querying.
+Your subgraph needs a to define the entities you'll be querying.
+
+Read more about how to make your own [schema](https://graphql.org/learn/schema/) here.
 
 We’ve provided the following for you:
 
@@ -400,6 +412,8 @@ If it does, congratulations, you have built your first Substreams! 🎊
 
 Notes for authors:
 
+- make them paste in abi
+-
 - make a test map_module for the store_module
 - add a new checkpoint for deploying their subgraph
 - make the use Apollo Client and querying
