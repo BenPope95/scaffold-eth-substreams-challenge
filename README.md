@@ -1,13 +1,5 @@
 # Substreams Challenge
 
-📚 This challenge is meant for developers with a basic understanding of Rust 🦀 and Web3.
-
-Do you want to use substreams but don’t know Rust? You only need a subset of Rust!
-
-- Just read [The Book](https://doc.rust-lang.org/book/index.html)
-  and understand chapters 1-9, maybe 10, plus chapters 13 and 18.
-- [Rustlings](https://rustlings.cool/) is a great way to apply your knowledge!
-
 🌊 Substreams are a powerful way to process blockchain data efficiently, allowing developers
 to stream, transform, and analyze large volumes of on-chain data in real time.
 
@@ -33,9 +25,18 @@ Substreams are composed of WASM modules, which there are two types: map modules 
 Substreams are outputted into sinks.
 [Sinks](https://substreams.streamingfast.io/reference-and-specs/manifests#sink-type) are the service that consume the Substreams data, for our challenge we will be using a Subgraph as a sink.
 
+### Prerequisites
+
+📚 This challenge is meant for developers with a basic understanding of Rust 🦀 and Web3, and a basic familiarity with [subgraphs](https://thegraph.com/docs/en/about/).
+
+Do you want to use substreams but don’t know Rust? You only need a subset of Rust!
+
+- Read chapters 1-9 in [The Book](https://doc.rust-lang.org/book/index.html).
+- As you read, complete the corresponding [Rustlings](https://rustlings.cool/) exercises.
+
 **Create a simple Substreams powered Subgraph:**
 
-1️⃣ You’ll be using a template Substreams to filter through blockchain data and indexing the transfer volume of NFT collections.
+1️⃣ You’ll be using a template Substreams to filter through blockchain data and indexing the transfer volume of certain NFT collections.
 
 2️⃣ Then you’ll be outputting the target data into a subgraph.
 
@@ -775,7 +776,7 @@ For our challenge you will only be using one event, however you have access to a
 
 ---
 
-# 🌎 Checkpoint 1: map_events 🎇
+# 🌎 Checkpoint 1: map_apes 🐵
 
 Your first module will be a map module.
 
@@ -826,7 +827,7 @@ In `substreams_challenge > substreams.yaml`, you’ll find the outline of the pr
 
 The map module has mostly been filled out.
 
-- [ ] For the name field, put `map_events`
+- [ ] For the name field, put `map_apes`
 - [ ] For the kind field put `map`.
 
 - Your first module will take in block, so the `inputs` field needs `- source: sf.ethereum.type.v2.Block`.
@@ -846,7 +847,7 @@ The map module has mostly been filled out.
 
 ### 🖊️ What is filled out:
 
-- Your `map_events` module takes in `blk: eth::Block` (block).
+- Your `map_apes` module takes in `blk: eth::Block` (block).
 - The module returns: `Result<Transfers, substreams::errors::Error>`.
   > Most of the time you will see map modules return [Result Types](https://doc.rust-lang.org/rust-by-example/error/result.html). They can also return Option Types or the protobuf directly.
 - `token_meta` is a helper that makes RPC calls to fetch token `name` and `symbol`.
@@ -857,7 +858,7 @@ The map module has mostly been filled out.
 
 ## 🥅 Goal of the module
 
-The module should search the block for all ERC721 transfer events, populate the `Transfer` protobuf with the event address, and populate 👫 the `Transfers` protobuf with a vector of `Transfer` protobufs.
+The module should search the block for all ERC721 transfer events, filter by name, populate the `Transfer` protobuf with the event address, and populate 👫 the `Transfers` protobuf with a vector of `Transfer` protobufs.
 
 ## 🎖️ Your Goals
 
@@ -871,9 +872,11 @@ The module should search the block for all ERC721 transfer events, populate the 
 
 - [ ] TODO 2: Pass the address that emmitted the event 🎇 into `token_meta` so it can make the calls to the correct address.
 
-- [ ] TODO 3: Assign 🧑‍🏫 the `address` field on the protobuf the event address.
+- [ ] TODO 3: Add a check that the name field on `token_meta` contains "Ape".
 
-- [ ] TODO 4: Assign the `transfers` field 🧑‍🌾 on the `Transfers` protobuf the vector of `transfer` protobufs.
+- [ ] TODO 4: Assign 🧑‍🏫 the `address` field on the protobuf the event address.
+
+- [ ] TODO 5: Assign the `transfers` field 🧑‍🌾 on the `Transfers` protobuf the vector of `transfer` protobufs.
 
 ## 🧪 Testing your map module
 
@@ -881,7 +884,7 @@ The module should search the block for all ERC721 transfer events, populate the 
 
 - [ ] Assign the `MODULE` variable the name of the module you want to test
 
-In the terminal running the following commands will do:
+**In the terminal running the following commands will do:**
 
 🏃 `make run` will run your module and display the output in the terminal block by block
 
@@ -893,34 +896,56 @@ In the terminal running the following commands will do:
 
 🚧 Your API key has a certain limit 🤯 so don’t test on too large of a block range!
 
-- [ ] Run `make gui` and use TAB to navigate to the Output tab
+- [ ] Use `make run` to see what the module returns for each block.
 
-> You can view the output of each block by using “o” and “p” to scroll left and right across blocks
+- ✅ Check that block #15,000,002 looks like this:
 
-- ✅ Check that block #12,287,507 looks like this:
+```
+{
+  "@module": "map_apes",
+  "@block": 15000002,
+  "@type": "contract.v1.Transfers",
+  "@data": {
+    "transfers": [
+      {
+        "address": "2ee6af0dff3a1ce3f7e3414c52c48fd50d73691e",
+        "name": "Bored Ape Yacht Club",
+        "symbol": "BAYC"
+      },
+      {
+        "address": "2ee6af0dff3a1ce3f7e3414c52c48fd50d73691e",
+        "name": "Bored Ape Yacht Club",
+        "symbol": "BAYC"
+      },
+      {
+        "address": "2ee6af0dff3a1ce3f7e3414c52c48fd50d73691e",
+        "name": "Bored Ape Yacht Club",
+        "symbol": "BAYC"
+      },
+      {
+        "address": "2ee6af0dff3a1ce3f7e3414c52c48fd50d73691e",
+        "name": "Bored Ape Yacht Club",
+        "symbol": "BAYC"
+      },
+      {
+        "address": "47f3a38990ca12e39255e959f7d97fbe5906afd4",
+        "name": "Ape Reunion",
+        "symbol": "APE_REUNION"
+      }
+    ]
+  }
+}
 
 ```
 
-{
-“transfers”: [
-{
-“address”: “890c3b095fb0da2f610f4a3276db0a34591550a2”,
-“name”: “ROCKY GATEWAY Open Edition by A$AP Rocky”,
-“symbol”: “ROCKYGATEWAYOPENEDITIONBYAAPROCKY”
-},
-{
-“address”: “50b8740d6a5cd985e2b8119ca28b481afa8351d9”,
-“name”: “RTFKT”,
-“symbol”: “RTFKT”
-},
-{
-“address”: “a7d8d9ef8d8ce8992df33d8b8cf4aebabd5bd270”,
-“name”: “Art Blocks”,
-“symbol”: “BLOCKS”
-}
-]
-}
+If your block 15,000,002 does't look like ours, you made a mistake somewhere and you'll need to debug. Luckily the substreams library has a [tool](https://docs.rs/substreams/latest/substreams/log/index.html) for logging.
 
+```rust
+substreams::log::info!("{}", value);
+```
+
+```rust
+substreams::log::debug!("{:?}", value);
 ```
 
 🎊 If it does, you’ve completed the map module correctly, congratulations! 🎊
@@ -1055,7 +1080,7 @@ Because stores don’t have outputs, you’ll need to import a new store type to
 
 - [ ] Test your graph_out module with `make gui` and remember to update the `MODULE` variable
 
-- ✅ On the output tab navigate to block #12,287,507 and make it matches this:
+- ✅ On the output tab navigate to block #15,000,000 and make it matches this:
 
 ```
 

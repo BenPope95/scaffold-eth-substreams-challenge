@@ -21,9 +21,9 @@ binaries:
     file: ./target/wasm32-unknown-unknown/release/substreams.wasm
 
 modules:
-  - name: map_events
+  - name: map_apes
     kind: map
-    initialBlock: 12287507
+    initialBlock: 15000000
     inputs:
       - source: sf.ethereum.type.v2.Block
     output:
@@ -31,17 +31,17 @@ modules:
 
   - name: store_transfer_volume
     kind: store
-    initialBlock: 12287507
+    initialBlock: 15000000
     updatePolicy: add
     valueType: int64
     inputs:
-      - map: map_events
-    
+      - map: map_apes
+
   - name: graph_out
     kind: map
-    initialBlock: 12287507
+    initialBlock: 15000000
     inputs:
-      - map: map_events
+      - map: map_apes
       - store: store_transfer_volume
     output:
       type: proto:sf.substreams.entity.v1.EntityChanges

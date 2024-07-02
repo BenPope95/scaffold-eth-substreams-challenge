@@ -1,7 +1,7 @@
 CARGO_VERSION := $(shell cargo version 2>/dev/null)
-START_BLOCK ?= 12287507
-STOP_BLOCK ?= +100
-MODULE ?= graph_out
+START_BLOCK ?= 15000000
+STOP_BLOCK ?= +10
+MODULE ?= map_apes
 
 .PHONY: build
 build:

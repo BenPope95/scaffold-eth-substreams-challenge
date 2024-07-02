@@ -24,17 +24,21 @@ use substreams::scalar::BigDecimal;
 substreams_ethereum::init!();
 
 #[substreams::handlers::map]
-fn map_events(blk: eth::Block) -> Result<Transfers, substreams::errors::Error> {
+fn map_apes(blk: eth::Block) -> Result<Transfers, substreams::errors::Error> {
     let transfers = blk
         .logs()
         .filter_map(|log| {
             if let Some(transfer) = TransferEvent::match_and_decode(log) {
                 let token_meta = TokenMeta::new(&log.log.address);
-                Some(Transfer {
-                    address: Hex::encode(&log.log.address),
-                    name: token_meta.name,
-                    symbol: token_meta.symbol,
-                })
+                if token_meta.name.contains("Ape") {
+                    Some(Transfer {
+                        address: Hex::encode(&log.log.address),
+                        name: token_meta.name,
+                        symbol: token_meta.symbol,
+                    })
+                } else {
+                    None
+                }
             } else {
                 None
             }
