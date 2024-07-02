@@ -1175,6 +1175,10 @@ const query = gql`
 `;
 ```
 
+11. Save everything and check your front end!
+
+If you see a whole lotta apes sorted according to their volume, you are ready to make millions of dollars building substreams!
+
 Notes for authors:
 
 - make them paste in abi
