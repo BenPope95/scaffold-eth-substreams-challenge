@@ -124,7 +124,7 @@ In order to generate Rust types related to specific contract events and function
 
 We have provided the Bored Ape Yatch Club ABI for you to paste in `contract.abi.json`.
 
-<details markdown='1'><summary>ABI</summary>
+<details markdown='1'><summary>ABI (toggle)</summary>
 
 ```json
 [
@@ -924,7 +924,7 @@ The module should search the block for all ERC721 transfer events, filter by nam
 
 - ✅ Check that block #15,000,002 looks like:
 
-<details markdown='1'><summary>this</summary>
+<details markdown='1'><summary>this (toggle)</summary>
 
 ```
 {
@@ -1121,7 +1121,7 @@ Because stores don’t have outputs, you’ll need to import a new store type to
 
 - [ ] Now switch to the `graph_out` and make sure block #15,000,082 looks like:
 
-<details markdown='1'><summary>this</summary>
+<details markdown='1'><summary>this (toggle)</summary>
 
 ```
 
