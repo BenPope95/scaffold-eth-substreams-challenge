@@ -3,13 +3,13 @@
 🌊 Substreams are a powerful way to process blockchain data efficiently, allowing developers
 to stream, transform, and analyze large volumes of on-chain data in real time.
 
-For a basic introduction to Substreams, we highly recommend watching this [video](https://www.youtube.com/watch?v=fogh2D-vpzg&t=2122s). The whole video is great but 14:10 to 35:00 will help you enourmously through this challege if you don't know anything about substreams yet.
+🍹 For a basic introduction to Substreams, we highly recommend watching this [video](https://www.youtube.com/watch?v=fogh2D-vpzg&t=2122s). The whole video is great but 14:10 to 35:00 will help you enourmously through this challege if you don't know anything about substreams yet.
 
-For a quicker, more applicable overview, watch [this](https://www.youtube.com/watch?v=vWYuOczDiAA&t=27s)
+🏎️ For a quicker, more applicable overview, watch [this](https://www.youtube.com/watch?v=vWYuOczDiAA&t=27s)
 
-For a quick read here's how substreams work:
+📕 For a quick read here's how substreams work:
 
-##### Modules
+#### 🧱 Modules
 
 Substreams are composed of WASM modules, which there are two types: map modules and store modules.
 
@@ -20,19 +20,19 @@ Substreams are composed of WASM modules, which there are two types: map modules 
 1. They can be run in parallel, making them very fast.
 2. They can be tested and debugged individually.
 
-##### Sinks
+#### 🚰 Sinks
 
 Substreams are outputted into sinks.
 [Sinks](https://substreams.streamingfast.io/reference-and-specs/manifests#sink-type) are the service that consume the Substreams data, for our challenge we will be using a Subgraph as a sink.
 
-### Prerequisites
+### 💡 Prerequisites
 
 📚 This challenge is meant for developers with a basic understanding of Rust 🦀 and Web3, and a basic familiarity with [subgraphs](https://thegraph.com/docs/en/about/).
 
 Do you want to use substreams but don’t know Rust? You only need a subset of Rust!
 
-- Read chapters 1-9 in [The Book](https://doc.rust-lang.org/book/index.html).
-- As you read, complete the corresponding [Rustlings](https://rustlings.cool/) exercises.
+- 🤓 Read chapters 1-9 in [The Book](https://doc.rust-lang.org/book/index.html).
+- 🚵‍♀️ As you read, complete the corresponding [Rustlings](https://rustlings.cool/) exercises.
 
 **Create a simple Substreams powered Subgraph:**
 
@@ -74,9 +74,26 @@ Then you can obtain your key with `sftoken`, it will make life easier 🤙
 > You’ll need to install Scaffold-ETH with
 
 ```sh
-
 yarn install
 
+```
+
+> in the same terminal, start your local network (a local instance of a blockchain):
+
+```sh
+yarn chain
+```
+
+> in a second terminal window, 🛰 deploy your contract (locally):
+
+```sh
+yarn deploy
+```
+
+> in a third terminal window, start your 📱 frontend:
+
+```sh
+yarn start
 ```
 
 ## Introduction to the Challenge
