@@ -1216,7 +1216,7 @@ const query = gql`
 
 11. Save everything and check your front end!
 
-![Apes](/public/ape-together-strong.png)
+![Apes](/packages/nextjs/public/ape-together-strong.png)
 
 ## 😁 Wrapping up 🕰️
 
