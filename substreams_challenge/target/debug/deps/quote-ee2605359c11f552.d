@@ -1,0 +1,11 @@
+/Users/ayechan/projects/scaffold-eth-substreams-challenge/substreams_challenge/target/debug/deps/quote-ee2605359c11f552.rmeta: /Users/ayechan/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.33/src/lib.rs /Users/ayechan/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.33/src/ext.rs /Users/ayechan/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.33/src/format.rs /Users/ayechan/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.33/src/ident_fragment.rs /Users/ayechan/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.33/src/to_tokens.rs /Users/ayechan/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.33/src/runtime.rs /Users/ayechan/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.33/src/spanned.rs
+
+/Users/ayechan/projects/scaffold-eth-substreams-challenge/substreams_challenge/target/debug/deps/quote-ee2605359c11f552.d: /Users/ayechan/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.33/src/lib.rs /Users/ayechan/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.33/src/ext.rs /Users/ayechan/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.33/src/format.rs /Users/ayechan/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.33/src/ident_fragment.rs /Users/ayechan/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.33/src/to_tokens.rs /Users/ayechan/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.33/src/runtime.rs /Users/ayechan/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.33/src/spanned.rs
+
+/Users/ayechan/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.33/src/lib.rs:
+/Users/ayechan/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.33/src/ext.rs:
+/Users/ayechan/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.33/src/format.rs:
+/Users/ayechan/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.33/src/ident_fragment.rs:
+/Users/ayechan/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.33/src/to_tokens.rs:
+/Users/ayechan/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.33/src/runtime.rs:
+/Users/ayechan/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.33/src/spanned.rs:

@@ -1,7 +1,0 @@
-type transfer_volume @entity {
-    id: ID!
-    name: String!
-    symbol: String!
-    address: String!
-    volume: BigInt!
-}

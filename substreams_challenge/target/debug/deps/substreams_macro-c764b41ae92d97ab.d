@@ -1,0 +1,10 @@
+/Users/ayechan/projects/scaffold-eth-substreams-challenge/substreams_challenge/target/debug/deps/libsubstreams_macro-c764b41ae92d97ab.dylib: /Users/ayechan/.cargo/registry/src/github.com-1ecc6299db9ec823/substreams-macro-0.5.10/src/lib.rs /Users/ayechan/.cargo/registry/src/github.com-1ecc6299db9ec823/substreams-macro-0.5.10/src/assertions.rs /Users/ayechan/.cargo/registry/src/github.com-1ecc6299db9ec823/substreams-macro-0.5.10/src/config.rs /Users/ayechan/.cargo/registry/src/github.com-1ecc6299db9ec823/substreams-macro-0.5.10/src/errors.rs /Users/ayechan/.cargo/registry/src/github.com-1ecc6299db9ec823/substreams-macro-0.5.10/src/handler.rs /Users/ayechan/.cargo/registry/src/github.com-1ecc6299db9ec823/substreams-macro-0.5.10/src/store.rs
+
+/Users/ayechan/projects/scaffold-eth-substreams-challenge/substreams_challenge/target/debug/deps/substreams_macro-c764b41ae92d97ab.d: /Users/ayechan/.cargo/registry/src/github.com-1ecc6299db9ec823/substreams-macro-0.5.10/src/lib.rs /Users/ayechan/.cargo/registry/src/github.com-1ecc6299db9ec823/substreams-macro-0.5.10/src/assertions.rs /Users/ayechan/.cargo/registry/src/github.com-1ecc6299db9ec823/substreams-macro-0.5.10/src/config.rs /Users/ayechan/.cargo/registry/src/github.com-1ecc6299db9ec823/substreams-macro-0.5.10/src/errors.rs /Users/ayechan/.cargo/registry/src/github.com-1ecc6299db9ec823/substreams-macro-0.5.10/src/handler.rs /Users/ayechan/.cargo/registry/src/github.com-1ecc6299db9ec823/substreams-macro-0.5.10/src/store.rs
+
+/Users/ayechan/.cargo/registry/src/github.com-1ecc6299db9ec823/substreams-macro-0.5.10/src/lib.rs:
+/Users/ayechan/.cargo/registry/src/github.com-1ecc6299db9ec823/substreams-macro-0.5.10/src/assertions.rs:
+/Users/ayechan/.cargo/registry/src/github.com-1ecc6299db9ec823/substreams-macro-0.5.10/src/config.rs:
+/Users/ayechan/.cargo/registry/src/github.com-1ecc6299db9ec823/substreams-macro-0.5.10/src/errors.rs:
+/Users/ayechan/.cargo/registry/src/github.com-1ecc6299db9ec823/substreams-macro-0.5.10/src/handler.rs:
+/Users/ayechan/.cargo/registry/src/github.com-1ecc6299db9ec823/substreams-macro-0.5.10/src/store.rs:

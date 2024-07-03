@@ -885,7 +885,7 @@ The module should search the block for all ERC721 transfer events, filter by nam
 
 - [ ] Go back to your Makefile
 
-- [ ] Assign the `MODULE` variable the name of the module you want to test
+- [ ] Assign the `MODULE` variable `map_apes`
 
 **In the terminal running the following commands will do:**
 
@@ -1008,10 +1008,10 @@ The module should iterate over the `Transfers` and increment the store value by 
 
 ### 🎖️ Your Goals
 
-- [ ] Pass in the appropriate store type as the second argument
-- [ ] ♻️ Iterate over transfers
+- [ ] TODO 1: Pass in the appropriate store type as the second argument
+- [ ] TODO 2: ♻️ Iterate over transfers
 - [ ] Look at the available methods on Docs.rs 👀 for your store under the Trait Implementation section
-- [ ] Use the `.add()` method on the store you passed in
+- [ ] TODO 3: Use the `.add()` method on the store you passed in
   > The first argument for `.add()` is ord ([ordinal](https://substreams.streamingfast.io/documentation/develop/manifest-modules/writing-module-handlers#ordinal)), we won’t be using ordinals so put 0 for that argument.
 
 🚧 You cannot use `make run` or `make gui` to test your store_module because they don’t have outputs
@@ -1030,7 +1030,7 @@ However in the next module, you'll be able to see if you've built your store mod
 
 - [ ] With your new-found .yaml experience, fill out the rest of the substreams.yaml for graph_out
 
-### schema.graphql
+## 3.2 schema.graphql
 
 📘 Your subgraph needs a schema to define the entities you'll be querying.
 
@@ -1048,6 +1048,8 @@ type transfer_volume @entity {
 }
 ```
 
+## 3.3 Building the graph_out
+
 ### 🥅 Goal of the module
 
 It should iterate ♻️ over the `Transfers`, and for each `Transfer`, it should retrieve 🏃 the `volume` from the store, then build the `transfer_volume` entity. 👽
@@ -1064,19 +1066,18 @@ Because stores don’t have outputs, you’ll need to import a new store type to
 
 [Stores](https://substreams.streamingfast.io/documentation/develop/manifest-modules/types#store-modes) have two modes for retrieving data. You will be using “get mode” for this module.
 
-- [ ] Look at the library 📚 and import the appropriate store type
-- [ ] Import the corresponding trait to use the store’s methods
-- [ ] Pass in the store 🏪 as the first function argument
-- [ ] Pass in the second argument (look at your yaml)
-- [ ] Iterate over the `transfers`
-- [ ] Get the volume from the store
+- [ ] TODO 1: Look at the library 📚 and import the appropriate store type along with the corresponding trait to use the store’s methods
+- [ ] TODO 2: Pass in the store 🏪 as the first function argument
+- [ ] TODO 3: Pass in the second argument (look at your yaml)
+- [ ] TODO 4: Iterate over the `transfers`
+- [ ] TODO 5: Get the volume from the store
 
   > `EntityChanges` has been imported for you from the [substreams_entity_change](https://docs.rs/substreams-entity-change/latest/substreams_entity_change/index.html).rs library. You will need to use the `tables` module to access:
 
   > 1. `createRow()` on the `Tables` struct to build the entity
   > 2. `set()` on the `Row` struct to set the entity’s fields
 
-- [ ] Create a row on the table for each entity and set the value of each field
+- [ ] TODO 6: Create a row on the table for each entity and set the value of each field
 - [ ] Check your `schema.graphql` to make sure you’re populating the entities exactly like the schema
 
   > The compiler won’t catch if the entity you’re building matches the schema, so double-check for spelling and capitalization.
@@ -1215,7 +1216,9 @@ const query = gql`
 
 11. Save everything and check your front end!
 
-# 😁 Wrapping up 🕰️
+![Apes](//packages/nextjs/public/ape-together-strong.png)
+
+## 😁 Wrapping up 🕰️
 
 We hope after completing this challenge you have everything you need to build your own substreams and incorporate them into your builds! 🏗️
 
