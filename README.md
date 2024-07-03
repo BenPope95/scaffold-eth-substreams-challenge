@@ -13,7 +13,7 @@ to stream, transform, and analyze large volumes of on-chain data in real time.
 
 Substreams are composed of WASM modules, which there are two types: map modules and store modules.
 
-- Map modules take inputs and have outputs, much a like **pure function**.
+- Map modules take inputs and have outputs much a like **pure function**.
 - Store modules are key value pairs that let you aggregate values from maps.
 - Modules pass information to each other in the form of protobufs, but cannot modify each other's data. This allows two things:
 
@@ -23,7 +23,9 @@ Substreams are composed of WASM modules, which there are two types: map modules 
 #### 🚰 Sinks
 
 Substreams are outputted into sinks.
-[Sinks](https://substreams.streamingfast.io/reference-and-specs/manifests#sink-type) are the service that consume the Substreams data, for our challenge we will be using a Subgraph as a sink.
+[Sinks](https://substreams.streamingfast.io/reference-and-specs/manifests#sink-type) are anything that consume the Substreams data, for our challenge we will be using a Subgraph as a sink.
+
+The docs mention databases and subgraphs which are the most common, but you can also build your own sink.
 
 ### 💡 Prerequisites
 
@@ -95,6 +97,8 @@ yarn deploy
 ```sh
 yarn start
 ```
+
+Keep in mind this projects doesn't use a local blockchain or a smart contract, these commands are just required for Scaffold-ETH to display a frontend.
 
 ## Introduction to the Challenge
 
@@ -918,7 +922,9 @@ The module should search the block for all ERC721 transfer events, filter by nam
 
 - [ ] Use `make run` to see what the module returns for each block.
 
-- ✅ Check that block #15,000,002 looks like this:
+- ✅ Check that block #15,000,002 looks like:
+
+<details markdown='1'><summary>this</summary>
 
 ```
 {
@@ -957,6 +963,8 @@ The module should search the block for all ERC721 transfer events, filter by nam
 }
 
 ```
+
+</details>
 
 ## 🪵 Logging and Debugging 🐛
 
@@ -1111,7 +1119,9 @@ Because stores don’t have outputs, you’ll need to import a new store type to
 
 - [ ] Use "o" and "p" to scroll accross the blocks, and make sure that the values are always incrementing by 1.
 
-- [ ] Now switch to the `graph_out` and make sure block #15,000,082 looks like this:
+- [ ] Now switch to the `graph_out` and make sure block #15,000,082 looks like:
+
+<details markdown='1'><summary>this</summary>
 
 ```
 
@@ -1153,6 +1163,8 @@ Because stores don’t have outputs, you’ll need to import a new store type to
 }
 
 ```
+
+</details>
 
 If it does,
 
