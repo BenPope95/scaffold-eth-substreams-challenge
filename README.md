@@ -3,40 +3,42 @@
 🌊 Substreams are a powerful way to process blockchain data efficiently, allowing developers
 to stream, transform, and analyze large volumes of on-chain data in real time.
 
-🍹 For a basic introduction to Substreams, we highly recommend watching this [video](https://www.youtube.com/watch?v=fogh2D-vpzg&t=2122s). The whole video is great but 14:10 to 35:00 will help you enourmously through this challege if you don't know anything about substreams yet.
+📚 This challenge is meant for developers with a basic understanding of Rust 🦀, Web3, a basic familiarity with [subgraphs](https://thegraph.com/docs/en/about/).
 
-🏎️ For a quicker, more applicable overview, watch [this](https://www.youtube.com/watch?v=vWYuOczDiAA&t=27s)
+<details markdown='1'><summary>Prerequisites</summary>
 
-📕 For a quick read here's how substreams work:
+**1. Rust**
+Don’t know Rust? Complete the following:
 
-#### 🧱 Modules
+- [ ] 🤓 Read chapters 1-9 in [The Book](https://doc.rust-lang.org/book/index.html).
+- [ ] 🚵‍♀️ As you read, complete the corresponding [Rustlings](https://rustlings.cool/) exercises.
 
-Substreams are composed of WASM modules, of which there are two types: map modules and store modules.
+**2. Basic Substreams Architecture**
 
-- Map modules take inputs and have outputs much like **pure function**.
-- Store modules are key value pairs that let you aggregate values from maps.
-- Modules pass information to each other in the form of protobufs, but cannot modify each other's data. This allows two things:
+🍹 For a basic introduction to Substreams watch this [video](https://www.youtube.com/watch?v=fogh2D-vpzg&t=2122s) from 14:10 to 35:00.
 
-1. They can be run in parallel, making them very fast.
-2. They can be tested and debugged individually.
+### 🧱 Substreams Modules
 
-#### 🚰 Sinks
+Substreams are composed of two types of WASM modules:
+
+1. **Map modules** take inputs and have outputs much like **pure function**.
+2. **Store modules** are key value pairs that let you aggregate values from maps.
+
+Modules pass information to each other in the form of protobufs, but cannot modify each other's data. This allows two things:
+
+- They can be run in parallel, making them very fast.
+- They can be tested and debugged individually.
+
+### 🚰 Sinks
 
 Substreams are outputted into sinks.
 [Sinks](https://substreams.streamingfast.io/reference-and-specs/manifests#sink-type) are anything that consumes the Substreams data, for our challenge we will be using a Subgraph as a sink.
 
 The docs mention databases and subgraphs, which are the most common, but you can also build your own sink.
 
-### 💡 Prerequisites
+</details>
 
-📚 This challenge is meant for developers with a basic understanding of Rust 🦀 and Web3 and a basic familiarity with [subgraphs](https://thegraph.com/docs/en/about/).
-
-Do you want to use substreams but don’t know Rust? You only need a subset of Rust!
-
-- 🤓 Read chapters 1-9 in [The Book](https://doc.rust-lang.org/book/index.html).
-- 🚵‍♀️ As you read, complete the corresponding [Rustlings](https://rustlings.cool/) exercises.
-
-**Create a simple Substreams powered Subgraph:**
+### Challenge Overview:
 
 1️⃣ You’ll use a template Substreams to filter through blockchain data and index the transfer volume of certain NFT collections. 🙈
 
