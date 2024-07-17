@@ -18,7 +18,7 @@ Don’t know Rust? Complete the following:
 
 🍹 For a basic introduction to Substreams watch this [video](https://www.youtube.com/watch?v=fogh2D-vpzg&t=2122s) from 14:10 to 35:00.
 
-🧱 Substreams are composed of two types of WASM modules:
+<!-- 🧱 Substreams are composed of two types of WASM modules:
 
 1. **Map modules** take inputs and have outputs much like **pure function**.
 2. **Store modules** are key value pairs that let you aggregate values from maps.
@@ -32,7 +32,7 @@ Modules pass information to each other in the form of protobufs, but cannot modi
 
 [Sinks](https://substreams.streamingfast.io/reference-and-specs/manifests#sink-type) are anything that consumes the Substreams data, for our challenge we will be using a Subgraph as a sink.
 
-The docs mention databases and subgraphs, which are the most common, but you can also build your own sink.
+The docs mention databases and subgraphs, which are the most common, but you can also build your own sink. -->
 
 </details>
 
@@ -43,6 +43,18 @@ The docs mention databases and subgraphs, which are the most common, but you can
 2️⃣ Then you’ll be outputting the target data into a subgraph.
 
 3️⃣ Finally, you’ll query the subgraph in a template frontend to display the data with swag. 😎
+
+> 🕺 Complete the challenge however you want, as long as your result looks the same as ours.
+
+> 🎣 Our goal (as authors) is not to give you fish but to teach you to fish.
+
+> 🚧 It’s a challenge, not a tutorial. But the goal is that you’ll learn more from this challenge than any tutorial could teach.
+
+**😇 Support 👋**
+
+The [Streamingfast Discord](https://discord.gg/mYPcRAzeVN) has quick and quality support.
+
+You can also join a smaller, more focused Telegram channel for help: [Substreams Challenge Help](https://t.me/+-d5ZcCZidWcwNjc5)
 
 ---
 
@@ -59,7 +71,7 @@ Before you begin, you need to install the following tools:
 (for Substreams)
 
 - [Rust, Buf, and Substreams CLI](https://substreams.streamingfast.io/documentation/consume/installing-the-cli#dependency-installation)
-- [Authentication and API key](https://substreams.streamingfast.io/documentation/consume/installing-the-cli#dependency-installation)
+- [Authentication and API key](https://app.streamingfast.io/dashboard)
 
 > To set your API key more easily:
 
@@ -73,52 +85,36 @@ echo "Token set on in SUBSTREAMS_API_TOKEN"
 
 Then you can obtain your key with `sftoken`, it will make life easier 🤙
 
-> You’ll need to install Scaffold-ETH with
+> 1. Clone this repo onto your machine
+
+> 2. Install Scaffold-ETH with
 
 ```sh
 yarn install
 
 ```
 
-> in the same terminal, start your local network (a local instance of a blockchain):
+> 3. In the same terminal, start your local network (a local instance of a blockchain):
 
 ```sh
 yarn chain
 ```
 
-> in a second terminal window, 🛰 deploy your contract (locally):
+> 4. In a second terminal window, 🛰 deploy your contract (locally):
 
 ```sh
 yarn deploy
 ```
 
-> in a third terminal window, start your 📱 frontend:
+> 5. In a third terminal window, start your 📱 frontend:
 
 ```sh
 yarn start
 ```
 
-Keep in mind that this projects doesn't use a local blockchain or a smart contract, these commands are just required for Scaffold-ETH to display a frontend.
+This challenge only uses these commands for Scaffold-ETH to display a frontend, there is no smart contract involved.
 
-## Introduction to the Challenge
-
-🕺 Complete the challenge however you want, as long as your result looks the same as ours.
-
-🛩️ Follow our steps if you want a more guided experience.
-
-🎣 Our goal (as authors) is not to give you fish but to teach you to fish.
-
-🧠 The challenge will require thinking, problem-solving, and trying different things.
-
-🚧 It’s a challenge, not a tutorial. But the goal is that you’ll learn more from this challenge than any tutorial could teach.
-
-#### 😇 Support 👋
-
-The [Streamingfast Discord](https://discord.gg/mYPcRAzeVN) has quick and quality support.
-
-You can also join a smaller, more focused Telegram channel for help: [Substreams Challenge Help](https://t.me/+-d5ZcCZidWcwNjc5)
-
-## 🤖 ABI
+# Checkpoint 1: 🤖 ABI
 
 To generate Rust types related to specific contract events and functions, you need to provide an ABI in the `substreams_challenge > abi > contract.abi.json`.
 
