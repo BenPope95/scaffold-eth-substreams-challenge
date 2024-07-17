@@ -7,18 +7,18 @@ to stream, transform, and analyze large volumes of on-chain data in real time.
 
 <details markdown='1'><summary>Prerequisites</summary>
 
-**1. Rust**
+## 1. Rust
 
 Don’t know Rust? Complete the following:
 
 - [ ] 🤓 Read chapters 1-9 in [The Book](https://doc.rust-lang.org/book/index.html).
 - [ ] 🚵‍♀️ As you read, complete the corresponding [Rustlings](https://rustlings.cool/) exercises.
 
-**2. Basic Substreams Architecture**
+## 2. Basic Substreams Architecture
 
 🍹 For a basic introduction to Substreams watch this [video](https://www.youtube.com/watch?v=fogh2D-vpzg&t=2122s) from 14:10 to 35:00.
 
-<!-- 🧱 Substreams are composed of two types of WASM modules:
+🧱 Substreams are composed of two types of WASM modules:
 
 1. **Map modules** take inputs and have outputs much like **pure function**.
 2. **Store modules** are key value pairs that let you aggregate values from maps.
@@ -32,7 +32,7 @@ Modules pass information to each other in the form of protobufs, but cannot modi
 
 [Sinks](https://substreams.streamingfast.io/reference-and-specs/manifests#sink-type) are anything that consumes the Substreams data, for our challenge we will be using a Subgraph as a sink.
 
-The docs mention databases and subgraphs, which are the most common, but you can also build your own sink. -->
+The docs mention databases and subgraphs, which are the most common, but you can also build your own sink.
 
 </details>
 
@@ -114,7 +114,7 @@ yarn start
 
 This challenge only uses these commands for Scaffold-ETH to display a frontend, there is no smart contract involved.
 
-# Checkpoint 1: 🤖 ABI
+### 🤖 ABI
 
 To generate Rust types related to specific contract events and functions, you need to provide an ABI in the `substreams_challenge > abi > contract.abi.json`.
 
@@ -801,7 +801,7 @@ For our challenge, you'll only be using one event. However you have access to al
 
 ---
 
-# 🌎 Checkpoint 1: map_apes 🐵
+# 🌎 Checkpoint 0: map_apes 🐵
 
 Your first module will be a map module.
 
