@@ -21,29 +21,29 @@ binaries:
     file: ./target/wasm32-unknown-unknown/release/substreams.wasm
 
 modules:
-  - name:
-    kind:
-    initialBlock: 15000000
-    inputs:
-      - source: sf.ethereum.type.v2.Block
-    output:
-      type: proto:contract.v1.Transfers
+  # - name:
+  #   kind:
+  #   initialBlock: 15000000
+  #   inputs:
+  #     - source: sf.ethereum.type.v2.Block
+  #   output:
+  #     type: proto:contract.v1.Transfers
 
-  - name:
-    kind:
-    initialBlock: 15000000
-    updatePolicy:
-    valueType:
-    inputs:
-      - map:
+  # - name:
+  #   kind:
+  #   initialBlock: 15000000
+  #   updatePolicy:
+  #   valueType:
+  #   inputs:
+  #     - map:
 
-  - name:
-    kind:
-    initialBlock: 15000000
-    inputs:
-      - store:
-      - map:
-    output:
-      type: proto:sf.substreams.entity.v1.EntityChanges
+  # - name:
+  #   kind:
+  #   initialBlock: 15000000
+  #   inputs:
+  #     - store:
+  #     - map:
+  #   output:
+  #     type: proto:sf.substreams.entity.v1.EntityChanges
 
 network: mainnet

@@ -795,7 +795,7 @@ For our challenge, you'll only be using one event. However you have access to al
 
 > These are the commands you will use to build and test your substreams as you go.
 
-- [ ] After pasting the ABI in the `contract.abi.json`, run `make build`.
+- [ ] After pasting the ABI in the `contract.abi.json`, make sure you're in the `substreams_challenge` directory and run `make build`.
 
 > `make build` will generate your Rust types from the ABI.
 
@@ -847,7 +847,8 @@ When adding new modules, you’ll need to specify its structure in the `substrea
 
 The map module has mostly been filled out.
 
-- [ ] For the name field, put `map_apes`
+- [ ] Uncomment the first module.
+- [ ] For the name field, put `map_apes`.
 - [ ] For the kind field put `map`.
 
 - Your first module will take in `eth::Block`, so the `inputs` field needs `- source: sf.ethereum.type.v2.Block`.
@@ -870,7 +871,7 @@ The map module has mostly been filled out.
 - Your `map_apes` module takes in `blk: eth::Block` (block).
 - The module returns: `Result<Transfers, substreams::errors::Error>`.
   > Most of the time, you'll see map modules return [Result Types](https://doc.rust-lang.org/rust-by-example/error/result.html). They can also return Option Types or the protobuf directly.
-- `token_meta` is a helper we made that makes RPC calls to fetch token `name` and `symbol`.
+- `token_meta` is a helper struct we made that makes RPC calls to fetch token `name` and `symbol`.
   > Take a look at rpc.rs if you’re curious about how RPC calls work.
 - The `Transfer` protobuf is instantiated for you with `name` and `symbol` populated from `token_meta`. In the `address` field `Hex::Encode()` is provided to conveniently convert the address (most likely a `Vec<u8>`) to a hexadecimal string.
 - The `Transfers` protobuf (what the module returns) has also been instantiated.
@@ -1060,7 +1061,7 @@ However in the next module, you'll be able to see if you've built your store mod
 We’ve provided the following for you to paste in `substreams_challenge > schema.graphql`:
 
 ```graphql
-type transfer_volume @entity {
+type TransferVolume @entity {
   id: ID!
   name: String!
   symbol: String!
@@ -1092,15 +1093,12 @@ Because stores don’t have outputs, you must import a new store type to access 
 - [ ] TODO 3: Pass in the second argument (look at your yaml)
 - [ ] TODO 4: Iterate over the `transfers`
 - [ ] TODO 5: Get the volume from the store
-
-  > `EntityChanges` has been imported for you from the [substreams_entity_change](https://docs.rs/substreams-entity-change/latest/substreams_entity_change/index.html).rs library. You will need to use the `tables` module to access:
-
-  > 1. `createRow()` on the `Tables` struct to build the entity
-  > 2. `set()` on the `Row` struct to set the entity’s fields
-
 - [ ] TODO 6: Create a row on the table for each entity and set the value of each field
+  > `EntityChanges` has been imported for you from the [substreams_entity_change](https://docs.rs/substreams-entity-change/latest/substreams_entity_change/index.html).rs library. You will need to use the `tables` module to access:
+  >
+  > 1. `createRow()` on the `Tables` struct to build the entity, the `table` argument will be the name of your entity
+  > 2. `set()` on the `Row` struct to set the entity’s fields
 - [ ] Check your `schema.graphql` to make sure you’re populating the entities exactly like the schema
-
   > The compiler won’t catch if the entity you’re building matches the schema, so double-check for spelling and capitalization.
 
 ## 🧪 Testing your graph_out
